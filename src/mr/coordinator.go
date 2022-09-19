@@ -1,15 +1,19 @@
 package mr
 
-import "log"
-import "net"
-import "os"
-import "net/rpc"
-import "net/http"
-
+import (
+	"log"
+	"net"
+	"net/http"
+	"net/rpc"
+	"os"
+)
 
 type Coordinator struct {
 	// Your definitions here.
+	files  []string
+	states []int // 0:not dispatched, 1:dispatched, 2:done
 
+	nReduce int
 }
 
 // Your code here -- RPC handlers for the worker to call.
@@ -24,6 +28,23 @@ func (c *Coordinator) Example(args *ExampleArgs, reply *ExampleReply) error {
 	return nil
 }
 
+func (c *Coordinator) DispatchTask(args *RPCArgs, reply *RPCReply) error {
+	// find a map task
+	for i, state := range c.states {
+		if state == 0 {
+			state = 1
+			reply.FileName = c.files[i]
+			reply.TaskType = TASK_MAP
+			reply.nReduce = c.nReduce
+			reply.MapIndex = i
+			return nil
+		}
+	}
+	// find a reduce task
+	// todo
+	reply.TaskType = TASK_NONE
+	return nil
+}
 
 //
 // start a thread that listens for RPCs from worker.go
@@ -50,7 +71,6 @@ func (c *Coordinator) Done() bool {
 
 	// Your code here.
 
-
 	return ret
 }
 
@@ -63,7 +83,9 @@ func MakeCoordinator(files []string, nReduce int) *Coordinator {
 	c := Coordinator{}
 
 	// Your code here.
-
+	c.files = files
+	c.states = make([]int, len(files))
+	c.nReduce = nReduce
 
 	c.server()
 	return &c

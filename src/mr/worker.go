@@ -1,10 +1,13 @@
 package mr
 
-import "fmt"
-import "log"
-import "net/rpc"
-import "hash/fnv"
-
+import (
+	"fmt"
+	"hash/fnv"
+	"io/ioutil"
+	"log"
+	"net/rpc"
+	"os"
+)
 
 //
 // Map functions return a slice of KeyValue.
@@ -24,7 +27,6 @@ func ihash(key string) int {
 	return int(h.Sum32() & 0x7fffffff)
 }
 
-
 //
 // main/mrworker.go calls this function.
 //
@@ -32,10 +34,30 @@ func Worker(mapf func(string, string) []KeyValue,
 	reducef func(string, []string) string) {
 
 	// Your worker implementation here.
-
 	// uncomment to send the Example RPC to the coordinator.
 	// CallExample()
 
+	for {
+		reply := SendRequest()
+		if reply == nil || reply.TaskType == TASK_NONE {
+			break
+		}
+		if reply.TaskType == TASK_MAP {
+			file, err := os.Open(reply.FileName)
+			if err != nil {
+				log.Fatalf("cannot open %v", reply.FileName)
+			}
+			content, err := ioutil.ReadAll(file)
+			if err != nil {
+				log.Fatalf("cannot read %v", reply.FileName)
+			}
+			file.Close()
+			kva := mapf(reply.FileName, string(content))
+
+		} else if reply.TaskType == TASK_REDUCE {
+
+		}
+	}
 }
 
 //
@@ -64,6 +86,19 @@ func CallExample() {
 		fmt.Printf("reply.Y %v\n", reply.Y)
 	} else {
 		fmt.Printf("call failed!\n")
+	}
+}
+
+func SendRequest() *RPCReply {
+	args := &RPCArgs{RPCType: RPC_TASK_REQUEST}
+	reply := &RPCReply{}
+
+	ok := call("Coordinator.DispatchTask", &args, &reply)
+	if ok {
+		return reply
+	} else {
+		fmt.Print("SendRequest call return error")
+		return nil
 	}
 }
 
