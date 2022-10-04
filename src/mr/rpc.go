@@ -21,29 +21,38 @@ type ExampleArgs struct {
 }
 
 type ExampleReply struct {
-	Y int
+	S    *ExampleSt
+	STRR string
+	Y    int
+}
+
+type ExampleSt struct {
+	SS string
 }
 
 // Add your RPC definitions here.
 // RPC type enum definitions
 const (
-	RPC_TASK_REQUEST = iota
-	TASK_MAP
+	TASK_MAP = iota
 	TASK_REDUCE
 	TASK_NONE
 	TASK_WAIT
 )
 
 type RPCArgs struct {
-	RPCType int
+	RPCType     int
+	TaskType    int
+	ReduceIndex int
+	FileName    string
 }
 
 type RPCReply struct {
 	TaskType    int
-	FileName    string
-	nReduce     int
+	NReduce     int
 	MapIndex    int
 	ReduceIndex int
+	TotalMapNum int
+	FileName    string
 }
 
 // Cook up a unique-ish UNIX-domain socket name

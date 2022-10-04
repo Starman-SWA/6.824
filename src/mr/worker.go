@@ -1,12 +1,15 @@
 package mr
 
 import (
+	"encoding/json"
 	"fmt"
 	"hash/fnv"
 	"io/ioutil"
 	"log"
 	"net/rpc"
 	"os"
+	"sort"
+	"time"
 )
 
 //
@@ -16,6 +19,14 @@ type KeyValue struct {
 	Key   string
 	Value string
 }
+
+// for sorting by key.
+type ByKey []KeyValue
+
+// for sorting by key.
+func (a ByKey) Len() int           { return len(a) }
+func (a ByKey) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByKey) Less(i, j int) bool { return a[i].Key < a[j].Key }
 
 //
 // use ihash(key) % NReduce to choose the reduce
@@ -41,21 +52,12 @@ func Worker(mapf func(string, string) []KeyValue,
 		reply := SendRequest()
 		if reply == nil || reply.TaskType == TASK_NONE {
 			break
-		}
-		if reply.TaskType == TASK_MAP {
-			file, err := os.Open(reply.FileName)
-			if err != nil {
-				log.Fatalf("cannot open %v", reply.FileName)
-			}
-			content, err := ioutil.ReadAll(file)
-			if err != nil {
-				log.Fatalf("cannot read %v", reply.FileName)
-			}
-			file.Close()
-			kva := mapf(reply.FileName, string(content))
-
+		} else if reply.TaskType == TASK_MAP {
+			doMap(reply, mapf)
 		} else if reply.TaskType == TASK_REDUCE {
-
+			doReduce(reply, reducef)
+		} else { // TASK_WAIT
+			time.Sleep(1 * time.Second)
 		}
 	}
 }
@@ -83,19 +85,22 @@ func CallExample() {
 	ok := call("Coordinator.Example", &args, &reply)
 	if ok {
 		// reply.Y should be 100.
-		fmt.Printf("reply.Y %v\n", reply.Y)
+		//fmt.Printf("reply %v\n", reply)
+		//fmt.Printf("str %v\n", reply.S.SS)
 	} else {
 		fmt.Printf("call failed!\n")
 	}
 }
 
 func SendRequest() *RPCReply {
-	args := &RPCArgs{RPCType: RPC_TASK_REQUEST}
-	reply := &RPCReply{}
+	args := RPCArgs{}
+	reply := RPCReply{}
 
 	ok := call("Coordinator.DispatchTask", &args, &reply)
 	if ok {
-		return reply
+		//fmt.Printf("args in sendRequest:%v", args)
+		//fmt.Printf("reply in sendRequest:%v", reply)
+		return &reply
 	} else {
 		fmt.Print("SendRequest call return error")
 		return nil
@@ -123,4 +128,117 @@ func call(rpcname string, args interface{}, reply interface{}) bool {
 
 	fmt.Println(err)
 	return false
+}
+
+func doMap(reply *RPCReply, mapf func(string, string) []KeyValue) {
+	//fmt.Printf("doing map\n")
+	//fmt.Printf("reply: %v\n", reply)
+	file, err := os.Open(reply.FileName)
+	if err != nil {
+		log.Fatalf("cannot open %v", reply.FileName)
+	}
+	content, err := ioutil.ReadAll(file)
+	if err != nil {
+		log.Fatalf("cannot read %v", reply.FileName)
+	}
+	file.Close()
+	kva := mapf(reply.FileName, string(content))
+
+	sort.Sort(ByKey(kva))
+	for i := 0; i < len(kva); {
+		j := i + 1
+		for j < len(kva) && kva[j].Key == kva[i].Key {
+			j++
+		}
+
+		filename := fmt.Sprintf("mr-%d-%d", reply.MapIndex, ihash(kva[i].Key)%reply.NReduce)
+		file, err := os.OpenFile(filename, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
+		if err != nil {
+			log.Fatalf("cannot open %v here", filename)
+		}
+		enc := json.NewEncoder(file)
+		for ; i < j; i++ {
+			err := enc.Encode(&kva[i])
+			if err != nil {
+				log.Fatalf("cannot write json to file %v", filename)
+			}
+		}
+		file.Close()
+	}
+
+	SendMapDone(reply.FileName)
+	//fmt.Printf("map done\n")
+}
+
+func SendMapDone(filename string) {
+	args := &RPCArgs{TaskType: TASK_MAP, FileName: filename}
+	reply := &RPCReply{}
+
+	ok := call("Coordinator.HandleTaskDone", &args, &reply)
+	if !ok {
+		fmt.Print("unable to call handleTaskDone")
+	}
+}
+
+func doReduce(reply *RPCReply, reducef func(string, []string) string) {
+	//fmt.Printf("doing reduce\n")
+	//fmt.Printf("reply: %v\n", reply)
+	var kva []KeyValue
+
+	for i := 0; i < reply.TotalMapNum; i++ {
+		filename := fmt.Sprintf("mr-%d-%d", i, reply.ReduceIndex)
+		file, err := os.Open(filename)
+		if err != nil {
+			log.Fatalf("cannot open file %v", filename)
+		}
+
+		dec := json.NewDecoder(file)
+		for {
+			var kv KeyValue
+			if err := dec.Decode(&kv); err != nil {
+				break
+			}
+			kva = append(kva, kv)
+		}
+
+		file.Close()
+	}
+
+	sort.Sort(ByKey(kva))
+
+	filename := fmt.Sprintf("mr-out-%d", reply.ReduceIndex)
+	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
+	if err != nil {
+		log.Fatalf("cannot open %v", filename)
+	}
+
+	for i := 0; i < len(kva); {
+		values := make([]string, 0)
+		values = append(values, kva[i].Value)
+		j := i + 1
+		for j < len(kva) && kva[j].Key == kva[i].Key {
+			values = append(values, kva[j].Value)
+			j++
+		}
+
+		result := reducef(kva[i].Key, values)
+		fmt.Fprintf(file, "%v %v\n", kva[i].Key, result)
+
+		i = j
+	}
+
+	file.Close()
+
+	SendReduceDone(reply.ReduceIndex)
+	//fmt.Printf("reduce done\n")
+}
+
+func SendReduceDone(reduceIndex int) {
+	args := &RPCArgs{TaskType: TASK_REDUCE, ReduceIndex: reduceIndex}
+	reply := &RPCReply{}
+
+	ok := call("Coordinator.HandleTaskDone", &args, &reply)
+	if !ok {
+		fmt.Print("unable to call handleTaskDone")
+	}
 }
