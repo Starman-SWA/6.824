@@ -57,7 +57,7 @@ func Worker(mapf func(string, string) []KeyValue,
 		} else if reply.TaskType == TASK_REDUCE {
 			doReduce(reply, reducef)
 		} else { // TASK_WAIT
-			time.Sleep(1 * time.Second)
+			time.Sleep(100 * time.Millisecond)
 		}
 	}
 }
@@ -151,7 +151,8 @@ func doMap(reply *RPCReply, mapf func(string, string) []KeyValue) {
 			j++
 		}
 
-		filename := fmt.Sprintf("mr-%d-%d", reply.MapIndex, ihash(kva[i].Key)%reply.NReduce)
+		filename := fmt.Sprintf("mr-%d-%d-%d", reply.MapIndex, ihash(kva[i].Key)%reply.NReduce, reply.NodeId)
+		//filename := fmt.Sprintf("mr-%d-%d", reply.MapIndex, ihash(kva[i].Key)%reply.NReduce)
 		file, err := os.OpenFile(filename, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 		if err != nil {
 			log.Fatalf("cannot open %v here", filename)
@@ -166,12 +167,12 @@ func doMap(reply *RPCReply, mapf func(string, string) []KeyValue) {
 		file.Close()
 	}
 
-	SendMapDone(reply.FileName)
+	SendMapDone(reply.FileName, reply.NodeId)
 	//fmt.Printf("map done\n")
 }
 
-func SendMapDone(filename string) {
-	args := &RPCArgs{TaskType: TASK_MAP, FileName: filename}
+func SendMapDone(filename string, nodeId int) {
+	args := &RPCArgs{TaskType: TASK_MAP, FileName: filename, NodeId: nodeId}
 	reply := &RPCReply{}
 
 	ok := call("Coordinator.HandleTaskDone", &args, &reply)
@@ -189,7 +190,8 @@ func doReduce(reply *RPCReply, reducef func(string, []string) string) {
 		filename := fmt.Sprintf("mr-%d-%d", i, reply.ReduceIndex)
 		file, err := os.Open(filename)
 		if err != nil {
-			log.Fatalf("cannot open file %v", filename)
+			//fmt.Printf("cannot open file %v\n", filename)
+			continue
 		}
 
 		dec := json.NewDecoder(file)
@@ -206,7 +208,8 @@ func doReduce(reply *RPCReply, reducef func(string, []string) string) {
 
 	sort.Sort(ByKey(kva))
 
-	filename := fmt.Sprintf("mr-out-%d", reply.ReduceIndex)
+	filename := fmt.Sprintf("mr-out-%d-%d", reply.ReduceIndex, reply.NodeId)
+	//filename := fmt.Sprintf("mr-out-%d", reply.ReduceIndex)
 	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 	if err != nil {
 		log.Fatalf("cannot open %v", filename)
@@ -229,12 +232,12 @@ func doReduce(reply *RPCReply, reducef func(string, []string) string) {
 
 	file.Close()
 
-	SendReduceDone(reply.ReduceIndex)
+	SendReduceDone(reply.ReduceIndex, reply.NodeId)
 	//fmt.Printf("reduce done\n")
 }
 
-func SendReduceDone(reduceIndex int) {
-	args := &RPCArgs{TaskType: TASK_REDUCE, ReduceIndex: reduceIndex}
+func SendReduceDone(reduceIndex int, nodeId int) {
+	args := &RPCArgs{TaskType: TASK_REDUCE, ReduceIndex: reduceIndex, NodeId: nodeId}
 	reply := &RPCReply{}
 
 	ok := call("Coordinator.HandleTaskDone", &args, &reply)

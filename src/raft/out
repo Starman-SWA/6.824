@@ -1,0 +1,816 @@
+2022/10/10 19:31:44 node 0 started
+2022/10/10 19:31:44 new election in 0
+2022/10/10 19:31:44 new election get lock 0
+2022/10/10 19:31:44 new election wait 0
+2022/10/10 19:31:44 node 1 started
+2022/10/10 19:31:44 new election in 1
+2022/10/10 19:31:44 new election get lock 1
+2022/10/10 19:31:44 new election wait 1
+2022/10/10 19:31:44 node 2 started
+Test (2A): initial election ...
+2022/10/10 19:31:44 new election in 2
+2022/10/10 19:31:44 new election get lock 2
+2022/10/10 19:31:44 new election wait 2
+2022/10/10 19:31:45 ticker 2 timeout, becoming candidate, term 1
+2022/10/10 19:31:45 candidate wakeup 2, term 1
+2022/10/10 19:31:45 candidate wakeup 2 get rf.mu
+2022/10/10 19:31:45 new election in 2
+2022/10/10 19:31:45 new election get lock 2
+2022/10/10 19:31:45 new election wait 2
+2022/10/10 19:31:45 candidate 2 send requestvote to 1, term 1
+2022/10/10 19:31:45 candidate 2 send requestvote to 0, term 1
+2022/10/10 19:31:45 node 1 receive request vote from 2, term 1, curState 0, curVoteFor -1
+2022/10/10 19:31:45 node 1 vote to 2, term 1
+2022/10/10 19:31:45 candidate 2 send requestvote to 1 return, return value true, term 1
+2022/10/10 19:31:45 candidate 2 receive valid vote from 1, term 1
+2022/10/10 19:31:45 candidate 2 become leader, term 1
+2022/10/10 19:31:45 node 0 receive request vote from 2, term 1, curState 0, curVoteFor -1
+2022/10/10 19:31:45 node 0 vote to 2, term 1
+labgob warning: Decoding into a non-default variable/field Term may not work
+2022/10/10 19:31:45 candidate 2 send requestvote to 0 return, return value true, term 1
+2022/10/10 19:31:45 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:45 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:45 leader 2 send heartbeat, term 1
+2022/10/10 19:31:45 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:45 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:45 leader 2 send heartbeat, term 1
+2022/10/10 19:31:45 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:45 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:45 leader 2 send heartbeat, term 1
+2022/10/10 19:31:45 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:45 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:45 leader 2 send heartbeat, term 1
+2022/10/10 19:31:45 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:45 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:45 leader 2 send heartbeat, term 1
+2022/10/10 19:31:45 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:45 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:45 leader 2 send heartbeat, term 1
+2022/10/10 19:31:45 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:45 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:45 leader 2 send heartbeat, term 1
+2022/10/10 19:31:45 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:45 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:46 leader 2 send heartbeat, term 1
+2022/10/10 19:31:46 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:46 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:46 leader 2 send heartbeat, term 1
+2022/10/10 19:31:46 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:46 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:46 leader 2 send heartbeat, term 1
+2022/10/10 19:31:46 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:46 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:46 leader 2 send heartbeat, term 1
+2022/10/10 19:31:46 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:46 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:46 leader 2 send heartbeat, term 1
+2022/10/10 19:31:46 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:46 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:46 leader 2 send heartbeat, term 1
+2022/10/10 19:31:46 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:46 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:46 leader 2 send heartbeat, term 1
+2022/10/10 19:31:46 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:46 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:46 leader 2 send heartbeat, term 1
+2022/10/10 19:31:46 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:46 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:46 leader 2 send heartbeat, term 1
+2022/10/10 19:31:46 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:46 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:46 leader 2 send heartbeat, term 1
+2022/10/10 19:31:46 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:46 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:47 leader 2 send heartbeat, term 1
+2022/10/10 19:31:47 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:47 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:47 leader 2 send heartbeat, term 1
+2022/10/10 19:31:47 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:47 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:47 leader 2 send heartbeat, term 1
+2022/10/10 19:31:47 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:47 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:47 leader 2 send heartbeat, term 1
+2022/10/10 19:31:47 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:47 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:47 leader 2 send heartbeat, term 1
+2022/10/10 19:31:47 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:47 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:47 leader 2 send heartbeat, term 1
+2022/10/10 19:31:47 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:47 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:47 leader 2 send heartbeat, term 1
+2022/10/10 19:31:47 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:47 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:47 leader 2 send heartbeat, term 1
+2022/10/10 19:31:47 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:47 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:47 leader 2 send heartbeat, term 1
+2022/10/10 19:31:47 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:47 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:47 leader 2 send heartbeat, term 1
+2022/10/10 19:31:47 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:47 follower 1 receive heartbeat, term 1
+  ... Passed --   3.5  3   58   21040    0
+2022/10/10 19:31:47 node 0 started
+2022/10/10 19:31:47 node 1 started
+2022/10/10 19:31:47 node 2 started
+Test (2A): election after network failure ...
+2022/10/10 19:31:47 new election in 0
+2022/10/10 19:31:47 new election get lock 0
+2022/10/10 19:31:47 new election wait 0
+2022/10/10 19:31:47 new election in 1
+2022/10/10 19:31:47 new election get lock 1
+2022/10/10 19:31:47 new election wait 1
+2022/10/10 19:31:47 new election in 2
+2022/10/10 19:31:47 new election get lock 2
+2022/10/10 19:31:47 new election wait 2
+2022/10/10 19:31:48 ticker 2 timeout, becoming candidate, term 1
+2022/10/10 19:31:48 candidate wakeup 2, term 1
+2022/10/10 19:31:48 candidate wakeup 2 get rf.mu
+2022/10/10 19:31:48 new election in 2
+2022/10/10 19:31:48 new election get lock 2
+2022/10/10 19:31:48 new election wait 2
+2022/10/10 19:31:48 candidate 2 send requestvote to 0, term 1
+2022/10/10 19:31:48 node 0 receive request vote from 2, term 1, curState 0, curVoteFor -1
+2022/10/10 19:31:48 node 0 vote to 2, term 1
+2022/10/10 19:31:48 candidate 2 send requestvote to 0 return, return value true, term 1
+2022/10/10 19:31:48 candidate 2 send requestvote to 1, term 1
+2022/10/10 19:31:48 node 1 receive request vote from 2, term 1, curState 0, curVoteFor -1
+2022/10/10 19:31:48 node 1 vote to 2, term 1
+2022/10/10 19:31:48 candidate 2 send requestvote to 1 return, return value true, term 1
+2022/10/10 19:31:48 candidate 2 receive valid vote from 0, term 1
+2022/10/10 19:31:48 candidate 2 become leader, term 1
+2022/10/10 19:31:48 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:48 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:48 leader 2 send heartbeat, term 1
+2022/10/10 19:31:48 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:48 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:48 leader 2 send heartbeat, term 1
+2022/10/10 19:31:48 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:48 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:48 leader 2 send heartbeat, term 1
+2022/10/10 19:31:48 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:48 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:48 leader 2 send heartbeat, term 1
+2022/10/10 19:31:48 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:48 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:49 leader 2 send heartbeat, term 1
+2022/10/10 19:31:49 leader 2 send heartbeat, term 1
+2022/10/10 19:31:49 leader 2 send heartbeat, term 1
+2022/10/10 19:31:49 leader 2 send heartbeat, term 1
+2022/10/10 19:31:49 leader 2 send heartbeat, term 1
+2022/10/10 19:31:49 leader 2 send heartbeat, term 1
+2022/10/10 19:31:49 leader 2 send heartbeat, term 1
+2022/10/10 19:31:49 ticker 0 timeout, becoming candidate, term 2
+2022/10/10 19:31:49 candidate wakeup 0, term 2
+2022/10/10 19:31:49 candidate wakeup 0 get rf.mu
+2022/10/10 19:31:49 new election in 0
+2022/10/10 19:31:49 new election get lock 0
+2022/10/10 19:31:49 new election wait 0
+2022/10/10 19:31:49 leader 2 send heartbeat, term 1
+2022/10/10 19:31:49 candidate 0 send requestvote to 2, term 2
+2022/10/10 19:31:49 candidate 0 send requestvote to 1, term 2
+2022/10/10 19:31:49 node 1 receive request vote from 0, term 2, curState 0, curVoteFor 2
+2022/10/10 19:31:49 node 1 vote to 0, term 2
+2022/10/10 19:31:49 candidate 0 send requestvote to 1 return, return value true, term 2
+2022/10/10 19:31:49 candidate 0 receive valid vote from 1, term 2
+2022/10/10 19:31:49 candidate 0 become leader, term 2
+2022/10/10 19:31:49 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:49 leader 0 send heartbeat, term 2
+2022/10/10 19:31:49 leader 2 send heartbeat, term 1
+2022/10/10 19:31:49 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:49 leader 2 send heartbeat, term 1
+2022/10/10 19:31:49 leader 0 send heartbeat, term 2
+2022/10/10 19:31:49 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:49 follower 2 receive heartbeat, term 2
+2022/10/10 19:31:50 leader 0 send heartbeat, term 2
+2022/10/10 19:31:50 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:50 follower 2 receive heartbeat, term 2
+2022/10/10 19:31:50 leader 0 send heartbeat, term 2
+2022/10/10 19:31:50 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:50 follower 2 receive heartbeat, term 2
+2022/10/10 19:31:50 leader 0 send heartbeat, term 2
+2022/10/10 19:31:50 follower 2 receive heartbeat, term 2
+2022/10/10 19:31:50 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:50 leader 0 send heartbeat, term 2
+2022/10/10 19:31:50 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:50 follower 2 receive heartbeat, term 2
+2022/10/10 19:31:50 leader 0 send heartbeat, term 2
+2022/10/10 19:31:50 leader 0 send heartbeat, term 2
+2022/10/10 19:31:50 leader 0 send heartbeat, term 2
+2022/10/10 19:31:50 leader 0 send heartbeat, term 2
+2022/10/10 19:31:50 leader 0 send heartbeat, term 2
+2022/10/10 19:31:50 ticker 2 timeout, becoming candidate, term 3
+2022/10/10 19:31:50 ticker 1 timeout, becoming candidate, term 3
+2022/10/10 19:31:50 candidate wakeup 1, term 3
+2022/10/10 19:31:50 candidate wakeup 1 get rf.mu
+2022/10/10 19:31:50 new election in 1
+2022/10/10 19:31:50 new election get lock 1
+2022/10/10 19:31:50 new election wait 1
+2022/10/10 19:31:50 candidate 1 send requestvote to 2, term 3
+2022/10/10 19:31:50 candidate wakeup 2, term 3
+2022/10/10 19:31:50 candidate wakeup 2 get rf.mu
+2022/10/10 19:31:50 new election in 2
+2022/10/10 19:31:50 new election get lock 2
+2022/10/10 19:31:50 candidate 2 send requestvote to 0, term 3
+2022/10/10 19:31:50 candidate 1 send requestvote to 0, term 3
+2022/10/10 19:31:50 new election wait 2
+2022/10/10 19:31:50 candidate 2 send requestvote to 1, term 3
+2022/10/10 19:31:50 leader 0 send heartbeat, term 2
+2022/10/10 19:31:51 candidate 1 send requestvote to 0 return, return value false, term 0
+2022/10/10 19:31:51 leader 0 send heartbeat, term 2
+2022/10/10 19:31:51 leader 0 send heartbeat, term 2
+2022/10/10 19:31:51 leader 0 send heartbeat, term 2
+2022/10/10 19:31:51 candidate 0 send requestvote to 2 return, return value false, term 2
+2022/10/10 19:31:51 leader 0 send heartbeat, term 2
+2022/10/10 19:31:51 leader 0 send heartbeat, term 2
+2022/10/10 19:31:51 leader 0 send heartbeat, term 2
+2022/10/10 19:31:51 leader 0 send heartbeat, term 2
+2022/10/10 19:31:51 ticker 1 timeout, becoming candidate, term 4
+2022/10/10 19:31:51 candidate wakeup 1, term 4
+2022/10/10 19:31:51 candidate wakeup 1 get rf.mu
+2022/10/10 19:31:51 new election in 1
+2022/10/10 19:31:51 new election get lock 1
+2022/10/10 19:31:51 candidate 1 send requestvote to 2, term 4
+2022/10/10 19:31:51 new election wait 1
+2022/10/10 19:31:51 candidate 1 send requestvote to 0, term 4
+2022/10/10 19:31:51 candidate 2 send requestvote to 1 return, return value false, term 0
+2022/10/10 19:31:51 leader 0 send heartbeat, term 2
+2022/10/10 19:31:51 ticker 2 timeout, becoming candidate, term 4
+2022/10/10 19:31:51 candidate wakeup 2, term 4
+2022/10/10 19:31:51 candidate wakeup 2 get rf.mu
+2022/10/10 19:31:51 new election in 2
+2022/10/10 19:31:51 new election get lock 2
+2022/10/10 19:31:51 new election wait 2
+2022/10/10 19:31:51 candidate 2 send requestvote to 1, term 4
+2022/10/10 19:31:51 candidate 2 send requestvote to 0, term 4
+2022/10/10 19:31:51 leader 0 send heartbeat, term 2
+2022/10/10 19:31:51 candidate 1 send requestvote to 2 return, return value false, term 0
+2022/10/10 19:31:52 leader 0 send heartbeat, term 2
+2022/10/10 19:31:52 leader 0 send heartbeat, term 2
+2022/10/10 19:31:52 leader 0 send heartbeat, term 2
+2022/10/10 19:31:52 leader 0 send heartbeat, term 2
+2022/10/10 19:31:52 leader 0 send heartbeat, term 2
+2022/10/10 19:31:52 leader 0 send heartbeat, term 2
+2022/10/10 19:31:52 ticker 1 timeout, becoming candidate, term 5
+2022/10/10 19:31:52 candidate wakeup 1, term 5
+2022/10/10 19:31:52 candidate wakeup 1 get rf.mu
+2022/10/10 19:31:52 new election in 1
+2022/10/10 19:31:52 new election get lock 1
+2022/10/10 19:31:52 new election wait 1
+2022/10/10 19:31:52 candidate 1 send requestvote to 0, term 5
+2022/10/10 19:31:52 candidate 1 send requestvote to 2, term 5
+2022/10/10 19:31:52 node 2 receive request vote from 1, term 5, curState 1, curVoteFor 2
+2022/10/10 19:31:52 node 2 vote to 1, term 5
+2022/10/10 19:31:52 candidate 1 send requestvote to 2 return, return value true, term 5
+2022/10/10 19:31:52 candidate 1 receive valid vote from 2, term 5
+2022/10/10 19:31:52 candidate 1 become leader, term 5
+2022/10/10 19:31:52 follower 2 receive heartbeat, term 5
+2022/10/10 19:31:52 leader 0 send heartbeat, term 2
+2022/10/10 19:31:52 leader 1 send heartbeat, term 5
+2022/10/10 19:31:52 follower 2 receive heartbeat, term 5
+2022/10/10 19:31:52 leader 0 send heartbeat, term 2
+2022/10/10 19:31:52 leader 1 send heartbeat, term 5
+2022/10/10 19:31:52 follower 2 receive heartbeat, term 5
+2022/10/10 19:31:52 leader 0 send heartbeat, term 2
+2022/10/10 19:31:52 leader 1 send heartbeat, term 5
+2022/10/10 19:31:52 follower 2 receive heartbeat, term 5
+2022/10/10 19:31:52 leader 0 send heartbeat, term 2
+2022/10/10 19:31:53 leader 1 send heartbeat, term 5
+2022/10/10 19:31:53 follower 2 receive heartbeat, term 5
+2022/10/10 19:31:53 follower 0 receive heartbeat, term 5
+2022/10/10 19:31:53 candidate 1 send requestvote to 0 return, return value false, term 0
+2022/10/10 19:31:53 leader 1 send heartbeat, term 5
+2022/10/10 19:31:53 follower 0 receive heartbeat, term 5
+2022/10/10 19:31:53 follower 2 receive heartbeat, term 5
+2022/10/10 19:31:53 leader 1 send heartbeat, term 5
+2022/10/10 19:31:53 follower 2 receive heartbeat, term 5
+2022/10/10 19:31:53 follower 0 receive heartbeat, term 5
+2022/10/10 19:31:53 leader 1 send heartbeat, term 5
+2022/10/10 19:31:53 follower 0 receive heartbeat, term 5
+2022/10/10 19:31:53 follower 2 receive heartbeat, term 5
+2022/10/10 19:31:53 leader 1 send heartbeat, term 5
+2022/10/10 19:31:53 follower 0 receive heartbeat, term 5
+2022/10/10 19:31:53 follower 2 receive heartbeat, term 5
+  ... Passed --   5.4  3  126   38436    0
+2022/10/10 19:31:53 node 0 started
+2022/10/10 19:31:53 new election in 0
+2022/10/10 19:31:53 new election get lock 0
+2022/10/10 19:31:53 new election wait 0
+2022/10/10 19:31:53 node 1 started
+2022/10/10 19:31:53 node 2 started
+2022/10/10 19:31:53 node 3 started
+2022/10/10 19:31:53 node 4 started
+2022/10/10 19:31:53 node 5 started
+2022/10/10 19:31:53 new election in 1
+2022/10/10 19:31:53 new election in 2
+2022/10/10 19:31:53 new election get lock 2
+2022/10/10 19:31:53 new election wait 2
+2022/10/10 19:31:53 new election in 5
+2022/10/10 19:31:53 new election get lock 5
+2022/10/10 19:31:53 new election wait 5
+2022/10/10 19:31:53 new election in 6
+2022/10/10 19:31:53 new election get lock 6
+2022/10/10 19:31:53 new election wait 6
+2022/10/10 19:31:53 new election in 4
+2022/10/10 19:31:53 new election get lock 4
+2022/10/10 19:31:53 new election wait 4
+2022/10/10 19:31:53 node 6 started
+Test (2A): multiple elections ...
+2022/10/10 19:31:53 new election in 3
+2022/10/10 19:31:53 new election get lock 3
+2022/10/10 19:31:53 new election wait 3
+2022/10/10 19:31:53 new election get lock 1
+2022/10/10 19:31:53 new election wait 1
+2022/10/10 19:31:53 ticker 2 timeout, becoming candidate, term 1
+2022/10/10 19:31:53 candidate wakeup 2, term 1
+2022/10/10 19:31:53 candidate wakeup 2 get rf.mu
+2022/10/10 19:31:53 new election in 2
+2022/10/10 19:31:53 new election get lock 2
+2022/10/10 19:31:53 new election wait 2
+2022/10/10 19:31:53 candidate 2 send requestvote to 6, term 1
+2022/10/10 19:31:53 candidate 2 send requestvote to 5, term 1
+2022/10/10 19:31:53 node 6 receive request vote from 2, term 1, curState 0, curVoteFor -1
+2022/10/10 19:31:53 node 6 vote to 2, term 1
+2022/10/10 19:31:53 node 5 receive request vote from 2, term 1, curState 0, curVoteFor -1
+2022/10/10 19:31:53 node 5 vote to 2, term 1
+2022/10/10 19:31:53 candidate 2 send requestvote to 6 return, return value true, term 1
+2022/10/10 19:31:53 candidate 2 receive valid vote from 6, term 1
+2022/10/10 19:31:53 candidate 2 send requestvote to 5 return, return value true, term 1
+2022/10/10 19:31:53 candidate 2 receive valid vote from 5, term 1
+2022/10/10 19:31:53 candidate 2 send requestvote to 1, term 1
+2022/10/10 19:31:53 candidate 2 send requestvote to 0, term 1
+2022/10/10 19:31:53 node 1 receive request vote from 2, term 1, curState 0, curVoteFor -1
+2022/10/10 19:31:53 node 1 vote to 2, term 1
+2022/10/10 19:31:53 node 0 receive request vote from 2, term 1, curState 0, curVoteFor -1
+2022/10/10 19:31:53 candidate 2 send requestvote to 1 return, return value true, term 1
+2022/10/10 19:31:53 candidate 2 receive valid vote from 1, term 1
+2022/10/10 19:31:53 candidate 2 become leader, term 1
+2022/10/10 19:31:53 follower 6 receive heartbeat, term 1
+2022/10/10 19:31:53 candidate 2 send requestvote to 4, term 1
+2022/10/10 19:31:53 node 4 receive request vote from 2, term 1, curState 0, curVoteFor -1
+2022/10/10 19:31:53 node 4 vote to 2, term 1
+2022/10/10 19:31:53 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:53 candidate 2 send requestvote to 4 return, return value true, term 1
+2022/10/10 19:31:53 node 0 vote to 2, term 1
+2022/10/10 19:31:53 follower 3 receive heartbeat, term 1
+2022/10/10 19:31:53 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:53 candidate 2 send requestvote to 3, term 1
+2022/10/10 19:31:53 candidate 2 send requestvote to 0 return, return value true, term 1
+2022/10/10 19:31:53 follower 4 receive heartbeat, term 1
+2022/10/10 19:31:53 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:53 node 3 receive request vote from 2, term 1, curState 0, curVoteFor -1
+2022/10/10 19:31:53 node 3 vote to 2, term 1
+2022/10/10 19:31:53 candidate 2 send requestvote to 3 return, return value true, term 1
+2022/10/10 19:31:54 leader 2 send heartbeat, term 1
+2022/10/10 19:31:54 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 6 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 3 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 4 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:54 leader 2 send heartbeat, term 1
+2022/10/10 19:31:54 follower 4 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 3 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 6 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:54 leader 2 send heartbeat, term 1
+2022/10/10 19:31:54 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 6 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 3 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 4 receive heartbeat, term 1
+2022/10/10 19:31:54 leader 2 send heartbeat, term 1
+2022/10/10 19:31:54 follower 0 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 3 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 4 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 6 receive heartbeat, term 1
+2022/10/10 19:31:54 leader 2 send heartbeat, term 1
+2022/10/10 19:31:54 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 4 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 6 receive heartbeat, term 1
+2022/10/10 19:31:54 leader 2 send heartbeat, term 1
+2022/10/10 19:31:54 follower 4 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 6 receive heartbeat, term 1
+2022/10/10 19:31:54 candidate 2 send requestvote to 0 return, return value false, term 0
+2022/10/10 19:31:54 leader 2 send heartbeat, term 1
+2022/10/10 19:31:54 follower 4 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 6 receive heartbeat, term 1
+2022/10/10 19:31:54 leader 2 send heartbeat, term 1
+2022/10/10 19:31:54 follower 4 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 6 receive heartbeat, term 1
+2022/10/10 19:31:54 leader 2 send heartbeat, term 1
+2022/10/10 19:31:54 follower 6 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 4 receive heartbeat, term 1
+2022/10/10 19:31:54 leader 2 send heartbeat, term 1
+2022/10/10 19:31:54 follower 3 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:54 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:55 leader 2 send heartbeat, term 1
+2022/10/10 19:31:55 follower 3 receive heartbeat, term 1
+2022/10/10 19:31:55 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:55 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:55 leader 2 send heartbeat, term 1
+2022/10/10 19:31:55 follower 3 receive heartbeat, term 1
+2022/10/10 19:31:55 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:55 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:55 ticker 0 timeout, becoming candidate, term 2
+2022/10/10 19:31:55 candidate wakeup 0, term 2
+2022/10/10 19:31:55 candidate wakeup 0 get rf.mu
+2022/10/10 19:31:55 new election in 0
+2022/10/10 19:31:55 new election get lock 0
+2022/10/10 19:31:55 new election wait 0
+2022/10/10 19:31:55 candidate 0 send requestvote to 3, term 2
+2022/10/10 19:31:55 candidate 0 send requestvote to 4, term 2
+2022/10/10 19:31:55 candidate 0 send requestvote to 6, term 2
+2022/10/10 19:31:55 candidate 0 send requestvote to 2, term 2
+2022/10/10 19:31:55 candidate 0 send requestvote to 5, term 2
+2022/10/10 19:31:55 candidate 0 send requestvote to 1, term 2
+2022/10/10 19:31:55 leader 2 send heartbeat, term 1
+2022/10/10 19:31:55 follower 5 receive heartbeat, term 1
+2022/10/10 19:31:55 follower 3 receive heartbeat, term 1
+2022/10/10 19:31:55 follower 1 receive heartbeat, term 1
+2022/10/10 19:31:55 leader 2 send heartbeat, term 1
+2022/10/10 19:31:55 leader 2 send heartbeat, term 1
+2022/10/10 19:31:55 candidate 2 send requestvote to 0 return, return value false, term 0
+2022/10/10 19:31:55 leader 2 send heartbeat, term 1
+2022/10/10 19:31:55 ticker 4 timeout, becoming candidate, term 2
+2022/10/10 19:31:55 candidate wakeup 4, term 2
+2022/10/10 19:31:55 candidate wakeup 4 get rf.mu
+2022/10/10 19:31:55 new election in 4
+2022/10/10 19:31:55 new election get lock 4
+2022/10/10 19:31:55 new election wait 4
+2022/10/10 19:31:55 candidate 4 send requestvote to 3, term 2
+2022/10/10 19:31:55 node 3 receive request vote from 4, term 2, curState 0, curVoteFor 2
+2022/10/10 19:31:55 node 3 vote to 4, term 2
+2022/10/10 19:31:55 candidate 4 send requestvote to 1, term 2
+2022/10/10 19:31:55 candidate 4 send requestvote to 3 return, return value true, term 2
+2022/10/10 19:31:55 candidate 4 receive valid vote from 3, term 2
+2022/10/10 19:31:55 candidate 4 send requestvote to 5, term 2
+2022/10/10 19:31:55 node 5 receive request vote from 4, term 2, curState 0, curVoteFor 2
+2022/10/10 19:31:55 node 5 vote to 4, term 2
+2022/10/10 19:31:55 candidate 4 send requestvote to 5 return, return value true, term 2
+2022/10/10 19:31:55 candidate 4 receive valid vote from 5, term 2
+2022/10/10 19:31:55 candidate 4 send requestvote to 0, term 2
+2022/10/10 19:31:55 candidate 4 send requestvote to 6, term 2
+2022/10/10 19:31:55 candidate 4 send requestvote to 2, term 2
+2022/10/10 19:31:55 node 6 receive request vote from 4, term 2, curState 0, curVoteFor 2
+2022/10/10 19:31:55 node 6 vote to 4, term 2
+2022/10/10 19:31:55 candidate 4 send requestvote to 6 return, return value true, term 2
+2022/10/10 19:31:55 candidate 4 receive valid vote from 6, term 2
+2022/10/10 19:31:55 candidate 4 become leader, term 2
+2022/10/10 19:31:55 follower 6 receive heartbeat, term 2
+2022/10/10 19:31:55 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:55 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:55 leader 2 send heartbeat, term 1
+2022/10/10 19:31:55 leader 4 send heartbeat, term 2
+2022/10/10 19:31:55 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:55 follower 6 receive heartbeat, term 2
+2022/10/10 19:31:55 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:55 leader 2 send heartbeat, term 1
+2022/10/10 19:31:55 ticker 1 timeout, becoming candidate, term 2
+2022/10/10 19:31:55 candidate wakeup 1, term 2
+2022/10/10 19:31:55 candidate wakeup 1 get rf.mu
+2022/10/10 19:31:55 new election in 1
+2022/10/10 19:31:55 new election get lock 1
+2022/10/10 19:31:55 new election wait 1
+2022/10/10 19:31:55 candidate 1 send requestvote to 2, term 2
+2022/10/10 19:31:55 candidate 1 send requestvote to 5, term 2
+2022/10/10 19:31:55 leader 4 send heartbeat, term 2
+2022/10/10 19:31:55 candidate 1 send requestvote to 6, term 2
+2022/10/10 19:31:55 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:55 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:55 follower 6 receive heartbeat, term 2
+2022/10/10 19:31:55 follower 2 receive heartbeat, term 2
+2022/10/10 19:31:55 candidate 1 send requestvote to 4, term 2
+2022/10/10 19:31:55 candidate 1 send requestvote to 0, term 2
+2022/10/10 19:31:55 candidate 1 send requestvote to 3, term 2
+2022/10/10 19:31:55 candidate 1 send requestvote to 6 return, return value false, term 0
+2022/10/10 19:31:55 leader 4 send heartbeat, term 2
+2022/10/10 19:31:55 follower 6 receive heartbeat, term 2
+2022/10/10 19:31:55 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:55 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:55 follower 2 receive heartbeat, term 2
+2022/10/10 19:31:55 candidate 0 send requestvote to 5 return, return value false, term 0
+2022/10/10 19:31:56 leader 4 send heartbeat, term 2
+2022/10/10 19:31:56 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 2 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 6 receive heartbeat, term 2
+2022/10/10 19:31:56 leader 4 send heartbeat, term 2
+2022/10/10 19:31:56 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 6 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 2 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:56 leader 4 send heartbeat, term 2
+2022/10/10 19:31:56 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 2 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 6 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:56 leader 4 send heartbeat, term 2
+2022/10/10 19:31:56 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:56 candidate 0 send requestvote to 2 return, return value false, term 0
+2022/10/10 19:31:56 leader 4 send heartbeat, term 2
+2022/10/10 19:31:56 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:56 leader 4 send heartbeat, term 2
+2022/10/10 19:31:56 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:56 leader 4 send heartbeat, term 2
+2022/10/10 19:31:56 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:56 leader 4 send heartbeat, term 2
+2022/10/10 19:31:56 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:56 leader 4 send heartbeat, term 2
+2022/10/10 19:31:56 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 3 receive heartbeat, term 2
+2022/10/10 19:31:56 candidate 1 send requestvote to 0 return, return value false, term 5
+2022/10/10 19:31:56 leader 4 send heartbeat, term 2
+2022/10/10 19:31:56 follower 6 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:56 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:57 leader 4 send heartbeat, term 2
+2022/10/10 19:31:57 ticker 2 timeout, becoming candidate, term 3
+2022/10/10 19:31:57 candidate wakeup 2, term 3
+2022/10/10 19:31:57 candidate wakeup 2 get rf.mu
+2022/10/10 19:31:57 new election in 2
+2022/10/10 19:31:57 candidate 2 send requestvote to 3, term 3
+2022/10/10 19:31:57 candidate 2 send requestvote to 5, term 3
+2022/10/10 19:31:57 candidate 2 send requestvote to 0, term 3
+2022/10/10 19:31:57 follower 6 receive heartbeat, term 2
+2022/10/10 19:31:57 candidate 2 send requestvote to 1, term 3
+2022/10/10 19:31:57 candidate 2 send requestvote to 6, term 3
+2022/10/10 19:31:57 candidate 2 send requestvote to 4, term 3
+2022/10/10 19:31:57 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:57 new election get lock 2
+2022/10/10 19:31:57 new election wait 2
+2022/10/10 19:31:57 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:57 leader 4 send heartbeat, term 2
+2022/10/10 19:31:57 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 6 receive heartbeat, term 2
+2022/10/10 19:31:57 candidate 1 send requestvote to 5 return, return value false, term 0
+2022/10/10 19:31:57 leader 4 send heartbeat, term 2
+2022/10/10 19:31:57 follower 6 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:57 leader 4 send heartbeat, term 2
+2022/10/10 19:31:57 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:57 leader 4 send heartbeat, term 2
+2022/10/10 19:31:57 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:57 leader 4 send heartbeat, term 2
+2022/10/10 19:31:57 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:57 ticker 3 timeout, becoming candidate, term 3
+2022/10/10 19:31:57 candidate wakeup 3, term 3
+2022/10/10 19:31:57 candidate wakeup 3 get rf.mu
+2022/10/10 19:31:57 new election in 3
+2022/10/10 19:31:57 new election get lock 3
+2022/10/10 19:31:57 candidate 3 send requestvote to 0, term 3
+2022/10/10 19:31:57 new election wait 3
+2022/10/10 19:31:57 candidate 3 send requestvote to 2, term 3
+2022/10/10 19:31:57 candidate 3 send requestvote to 4, term 3
+2022/10/10 19:31:57 candidate 3 send requestvote to 6, term 3
+2022/10/10 19:31:57 candidate 3 send requestvote to 1, term 3
+2022/10/10 19:31:57 candidate 3 send requestvote to 5, term 3
+2022/10/10 19:31:57 leader 4 send heartbeat, term 2
+2022/10/10 19:31:57 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:57 leader 4 send heartbeat, term 2
+2022/10/10 19:31:57 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 5 receive heartbeat, term 2
+2022/10/10 19:31:57 ticker 2 timeout, becoming candidate, term 4
+2022/10/10 19:31:57 candidate wakeup 2, term 4
+2022/10/10 19:31:57 candidate wakeup 2 get rf.mu
+2022/10/10 19:31:57 new election in 2
+2022/10/10 19:31:57 new election get lock 2
+2022/10/10 19:31:57 new election wait 2
+2022/10/10 19:31:57 candidate 2 send requestvote to 0, term 4
+2022/10/10 19:31:57 candidate 2 send requestvote to 3, term 4
+2022/10/10 19:31:57 candidate 2 send requestvote to 1, term 4
+2022/10/10 19:31:57 candidate 2 send requestvote to 4, term 4
+2022/10/10 19:31:57 candidate 2 send requestvote to 5, term 4
+2022/10/10 19:31:57 candidate 2 send requestvote to 6, term 4
+2022/10/10 19:31:57 leader 4 send heartbeat, term 2
+2022/10/10 19:31:57 ticker 6 timeout, becoming candidate, term 3
+2022/10/10 19:31:57 candidate wakeup 6, term 3
+2022/10/10 19:31:57 candidate wakeup 6 get rf.mu
+2022/10/10 19:31:57 new election in 6
+2022/10/10 19:31:57 new election get lock 6
+2022/10/10 19:31:57 new election wait 6
+2022/10/10 19:31:57 candidate 6 send requestvote to 1, term 3
+2022/10/10 19:31:57 candidate 6 send requestvote to 2, term 3
+2022/10/10 19:31:57 follower 1 receive heartbeat, term 2
+2022/10/10 19:31:57 node 1 receive request vote from 6, term 3, curState 0, curVoteFor -1
+2022/10/10 19:31:57 node 1 vote to 6, term 3
+2022/10/10 19:31:57 candidate 6 send requestvote to 1 return, return value true, term 3
+2022/10/10 19:31:57 candidate 6 receive valid vote from 1, term 3
+2022/10/10 19:31:57 candidate 6 send requestvote to 3, term 3
+2022/10/10 19:31:57 node 3 receive request vote from 6, term 3, curState 1, curVoteFor 3
+2022/10/10 19:31:57 node 3 didn't vote
+2022/10/10 19:31:57 candidate 6 send requestvote to 3 return, return value true, term 3
+2022/10/10 19:31:57 candidate 6 receive valid vote from 3, term 3
+2022/10/10 19:31:57 candidate 6 send requestvote to 0, term 3
+2022/10/10 19:31:57 node 0 receive request vote from 6, term 3, curState 0, curVoteFor -1
+2022/10/10 19:31:57 candidate 6 send requestvote to 4, term 3
+2022/10/10 19:31:57 node 4 receive request vote from 6, term 3, curState 0, curVoteFor -1
+2022/10/10 19:31:57 node 4 vote to 6, term 3
+2022/10/10 19:31:57 candidate 6 send requestvote to 4 return, return value true, term 3
+2022/10/10 19:31:57 candidate 6 receive valid vote from 4, term 3
+2022/10/10 19:31:57 candidate 6 become leader, term 3
+2022/10/10 19:31:57 candidate 6 send requestvote to 5, term 3
+2022/10/10 19:31:57 follower 0 receive heartbeat, term 2
+2022/10/10 19:31:57 follower 0 receive heartbeat, term 3
+2022/10/10 19:31:57 follower 1 receive heartbeat, term 3
+2022/10/10 19:31:57 node 0 vote to 6, term 3
+2022/10/10 19:31:57 follower 4 receive heartbeat, term 3
+2022/10/10 19:31:57 candidate 6 send requestvote to 0 return, return value true, term 3
+2022/10/10 19:31:57 follower 3 receive heartbeat, term 3
+2022/10/10 19:31:57 candidate 2 send requestvote to 1 return, return value false, term 0
+2022/10/10 19:31:57 leader 6 send heartbeat, term 3
+2022/10/10 19:31:57 follower 4 receive heartbeat, term 3
+2022/10/10 19:31:57 follower 3 receive heartbeat, term 3
+2022/10/10 19:31:57 follower 1 receive heartbeat, term 3
+2022/10/10 19:31:57 follower 0 receive heartbeat, term 3
+2022/10/10 19:31:58 candidate 6 send requestvote to 2 return, return value false, term 3
+2022/10/10 19:31:58 leader 6 send heartbeat, term 3
+2022/10/10 19:31:58 follower 1 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 4 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 3 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 0 receive heartbeat, term 3
+2022/10/10 19:31:58 candidate 2 send requestvote to 0 return, return value false, term 0
+2022/10/10 19:31:58 candidate 2 send requestvote to 5 return, return value false, term 0
+2022/10/10 19:31:58 leader 6 send heartbeat, term 3
+2022/10/10 19:31:58 follower 1 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 4 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 3 receive heartbeat, term 3
+2022/10/10 19:31:58 candidate 2 send requestvote to 6 return, return value false, term 0
+2022/10/10 19:31:58 follower 0 receive heartbeat, term 3
+2022/10/10 19:31:58 leader 6 send heartbeat, term 3
+2022/10/10 19:31:58 follower 0 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 4 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 5 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 3 receive heartbeat, term 3
+2022/10/10 19:31:58 candidate 1 send requestvote to 2 return, return value false, term 0
+2022/10/10 19:31:58 leader 6 send heartbeat, term 3
+2022/10/10 19:31:58 follower 3 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 0 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 4 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 5 receive heartbeat, term 3
+2022/10/10 19:31:58 candidate 2 send requestvote to 6 return, return value false, term 0
+2022/10/10 19:31:58 leader 6 send heartbeat, term 3
+2022/10/10 19:31:58 follower 0 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 5 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 4 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 3 receive heartbeat, term 3
+2022/10/10 19:31:58 leader 6 send heartbeat, term 3
+2022/10/10 19:31:58 follower 5 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 0 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 3 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 4 receive heartbeat, term 3
+2022/10/10 19:31:58 ticker 2 timeout, becoming candidate, term 5
+2022/10/10 19:31:58 candidate wakeup 2, term 5
+2022/10/10 19:31:58 candidate wakeup 2 get rf.mu
+2022/10/10 19:31:58 new election in 2
+2022/10/10 19:31:58 new election get lock 2
+2022/10/10 19:31:58 new election wait 2
+2022/10/10 19:31:58 candidate 2 send requestvote to 3, term 5
+2022/10/10 19:31:58 candidate 2 send requestvote to 6, term 5
+2022/10/10 19:31:58 candidate 2 send requestvote to 0, term 5
+2022/10/10 19:31:58 candidate 2 send requestvote to 4, term 5
+2022/10/10 19:31:58 candidate 2 send requestvote to 5, term 5
+2022/10/10 19:31:58 candidate 2 send requestvote to 1, term 5
+2022/10/10 19:31:58 leader 6 send heartbeat, term 3
+2022/10/10 19:31:58 follower 5 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 0 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 3 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 4 receive heartbeat, term 3
+2022/10/10 19:31:58 leader 6 send heartbeat, term 3
+2022/10/10 19:31:58 follower 3 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 0 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 4 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 5 receive heartbeat, term 3
+2022/10/10 19:31:58 follower 1 receive heartbeat, term 3
+2022/10/10 19:31:58 candidate 3 send requestvote to 0 return, return value false, term 0
+2022/10/10 19:31:58 candidate 6 send requestvote to 5 return, return value false, term 3
+2022/10/10 19:31:59 candidate 2 send requestvote to 3 return, return value false, term 0
+2022/10/10 19:31:59 candidate 3 send requestvote to 1 return, return value false, term 0
+2022/10/10 19:31:59 candidate 0 send requestvote to 1 return, return value false, term 0
+2022/10/10 19:31:59 candidate 4 send requestvote to 2 return, return value false, term 2
+2022/10/10 19:31:59 candidate 3 send requestvote to 6 return, return value false, term 0
+2022/10/10 19:31:59 candidate 2 send requestvote to 4 return, return value false, term 0
+2022/10/10 19:31:59 ticker 1 timeout, becoming candidate, term 4
+2022/10/10 19:31:59 ticker 4 timeout, becoming candidate, term 4
+2022/10/10 19:31:59 candidate wakeup 4, term 4
+2022/10/10 19:31:59 candidate wakeup 4 get rf.mu
+2022/10/10 19:31:59 new election in 4
+2022/10/10 19:31:59 new election get lock 4
+2022/10/10 19:31:59 new election wait 4
+2022/10/10 19:31:59 candidate 4 send requestvote to 6, term 4
+2022/10/10 19:31:59 node 6 receive request vote from 4, term 4, curState 0, curVoteFor -1
+2022/10/10 19:31:59 candidate 4 send requestvote to 0, term 4
+2022/10/10 19:31:59 candidate 4 send requestvote to 6 return, return value true, term 5
+2022/10/10 19:31:59 node 0 receive request vote from 4, term 4, curState 0, curVoteFor 6
+2022/10/10 19:31:59 node 0 vote to 4, term 4
+2022/10/10 19:31:59 candidate 4 send requestvote to 0 return, return value true, term 4
+2022/10/10 19:31:59 candidate 4 send requestvote to 1, term 4
+2022/10/10 19:31:59 node 1 receive request vote from 4, term 4, curState 0, curVoteFor 6
+2022/10/10 19:31:59 node 1 vote to 4, term 4
+2022/10/10 19:31:59 candidate 4 send requestvote to 2, term 4
+2022/10/10 19:31:59 node 2 receive request vote from 4, term 4, curState 1, curVoteFor 2
+2022/10/10 19:31:59 candidate 4 send requestvote to 2 return, return value true, term 5
+2022/10/10 19:31:59 candidate wakeup 1, term 4
+2022/10/10 19:31:59 candidate wakeup 1 get rf.mu
+2022/10/10 19:31:59 new election in 1
+2022/10/10 19:31:59 new election get lock 1
+2022/10/10 19:31:59 new election wait 1
+2022/10/10 19:31:59 candidate 1 send requestvote to 6, term 5
+2022/10/10 19:31:59 node 6 receive request vote from 1, term 5, curState 0, curVoteFor -1
+2022/10/10 19:31:59 node 6 vote to 1, term 5
+2022/10/10 19:31:59 candidate 1 send requestvote to 6 return, return value true, term 5
+2022/10/10 19:31:59 candidate 1 receive valid vote from 6, term 5
+2022/10/10 19:31:59 candidate 1 send requestvote to 3, term 5
+2022/10/10 19:31:59 candidate 1 send requestvote to 5, term 5
+2022/10/10 19:31:59 node 3 receive request vote from 1, term 5, curState 0, curVoteFor -1
+2022/10/10 19:31:59 node 3 vote to 1, term 5
+2022/10/10 19:31:59 node 5 receive request vote from 1, term 5, curState 0, curVoteFor -1
+2022/10/10 19:31:59 candidate 1 send requestvote to 3 return, return value true, term 5
+2022/10/10 19:31:59 candidate 1 receive valid vote from 3, term 5
+2022/10/10 19:31:59 candidate 1 send requestvote to 2, term 5
+2022/10/10 19:31:59 node 2 receive request vote from 1, term 5, curState 1, curVoteFor 2
+2022/10/10 19:31:59 node 2 didn't vote
+2022/10/10 19:31:59 candidate 1 send requestvote to 2 return, return value true, term 5
+2022/10/10 19:31:59 candidate 1 receive valid vote from 2, term 5
+2022/10/10 19:31:59 candidate 1 become leader, term 5
+2022/10/10 19:31:59 follower 6 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 3 receive heartbeat, term 5
+2022/10/10 19:31:59 node 5 vote to 1, term 5
+2022/10/10 19:31:59 follower 0 receive heartbeat, term 5
+2022/10/10 19:31:59 candidate 1 send requestvote to 5 return, return value true, term 5
+2022/10/10 19:31:59 follower 2 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 5 receive heartbeat, term 5
+2022/10/10 19:31:59 candidate 1 send requestvote to 4, term 5
+2022/10/10 19:31:59 candidate 4 send requestvote to 5, term 4
+2022/10/10 19:31:59 node 5 receive request vote from 4, term 4, curState 0, curVoteFor 1
+2022/10/10 19:31:59 candidate 4 send requestvote to 5 return, return value true, term 5
+2022/10/10 19:31:59 candidate 4 send requestvote to 1 return, return value true, term 4
+2022/10/10 19:31:59 candidate 4 send requestvote to 3, term 4
+2022/10/10 19:31:59 node 3 receive request vote from 4, term 4, curState 0, curVoteFor 1
+2022/10/10 19:31:59 candidate 4 send requestvote to 3 return, return value true, term 5
+2022/10/10 19:31:59 candidate 1 send requestvote to 0, term 5
+2022/10/10 19:31:59 node 0 receive request vote from 1, term 5, curState 0, curVoteFor -1
+2022/10/10 19:31:59 node 0 vote to 1, term 5
+2022/10/10 19:31:59 follower 4 receive heartbeat, term 5
+2022/10/10 19:31:59 candidate 1 send requestvote to 0 return, return value true, term 5
+2022/10/10 19:31:59 node 4 receive request vote from 1, term 5, curState 0, curVoteFor -1
+2022/10/10 19:31:59 node 4 vote to 1, term 5
+2022/10/10 19:31:59 candidate 1 send requestvote to 4 return, return value true, term 5
+2022/10/10 19:31:59 leader 1 send heartbeat, term 5
+2022/10/10 19:31:59 follower 3 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 4 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 0 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 5 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 6 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 2 receive heartbeat, term 5
+2022/10/10 19:31:59 candidate 2 send requestvote to 3 return, return value false, term 0
+2022/10/10 19:31:59 leader 1 send heartbeat, term 5
+2022/10/10 19:31:59 follower 3 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 2 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 0 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 5 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 6 receive heartbeat, term 5
+2022/10/10 19:31:59 follower 4 receive heartbeat, term 5
+  ... Passed --   6.2  7  396  121822    0
+PASS
+ok  	6.824/raft	15.233s

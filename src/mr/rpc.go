@@ -44,6 +44,7 @@ type RPCArgs struct {
 	TaskType    int
 	ReduceIndex int
 	FileName    string
+	NodeId      int
 }
 
 type RPCReply struct {
@@ -53,6 +54,7 @@ type RPCReply struct {
 	ReduceIndex int
 	TotalMapNum int
 	FileName    string
+	NodeId      int
 }
 
 // Cook up a unique-ish UNIX-domain socket name

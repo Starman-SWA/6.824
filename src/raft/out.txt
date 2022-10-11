@@ -1,0 +1,340 @@
+2022/10/07 18:04:35 node 0 started
+2022/10/07 18:04:35 node 1 started
+2022/10/07 18:04:35 node 2 started
+Test (2A): initial election ...
+2022/10/07 18:04:36 ticker 0 timeout, becoming candidate
+2022/10/07 18:04:36 candidate wakeup 0
+2022/10/07 18:04:36 candidate wakeup 0 get rf.mu
+2022/10/07 18:04:36 candidate 0 range 0
+2022/10/07 18:04:36 candidate 0 range 1
+2022/10/07 18:04:36 candidate 0 range 2
+2022/10/07 18:04:36 candidate 0 send requestvote to 0
+2022/10/07 18:04:36 candidate 0 send requestvote to 1
+2022/10/07 18:04:36 candidate 0 send requestvote to 2
+2022/10/07 18:04:36 node 0 receive request vote from 0
+2022/10/07 18:04:36 node 1 receive request vote from 0
+labgob warning: Decoding into a non-default variable/field Term may not work
+2022/10/07 18:04:36 candidate 0 receive valid vote from 1
+2022/10/07 18:04:36 node 2 receive request vote from 0
+2022/10/07 18:04:36 candidate 0 receive valid vote from 2
+2022/10/07 18:04:36 candidate 0 become leader
+2022/10/07 18:04:36 follower 2 receive heartbeat
+2022/10/07 18:04:36 follower 1 receive heartbeat
+2022/10/07 18:04:36 leader 0 send heartbeat
+2022/10/07 18:04:36 follower 1 receive heartbeat
+2022/10/07 18:04:36 follower 2 receive heartbeat
+2022/10/07 18:04:36 leader 0 send heartbeat
+2022/10/07 18:04:36 follower 2 receive heartbeat
+2022/10/07 18:04:36 follower 1 receive heartbeat
+2022/10/07 18:04:36 leader 0 send heartbeat
+2022/10/07 18:04:36 follower 1 receive heartbeat
+2022/10/07 18:04:36 follower 2 receive heartbeat
+2022/10/07 18:04:36 leader 0 send heartbeat
+2022/10/07 18:04:36 follower 2 receive heartbeat
+2022/10/07 18:04:36 follower 1 receive heartbeat
+2022/10/07 18:04:36 leader 0 send heartbeat
+2022/10/07 18:04:36 follower 1 receive heartbeat
+2022/10/07 18:04:36 follower 2 receive heartbeat
+2022/10/07 18:04:37 leader 0 send heartbeat
+2022/10/07 18:04:37 follower 2 receive heartbeat
+2022/10/07 18:04:37 follower 1 receive heartbeat
+2022/10/07 18:04:37 leader 0 send heartbeat
+2022/10/07 18:04:37 follower 2 receive heartbeat
+2022/10/07 18:04:37 follower 1 receive heartbeat
+2022/10/07 18:04:37 leader 0 send heartbeat
+2022/10/07 18:04:37 follower 1 receive heartbeat
+2022/10/07 18:04:37 follower 2 receive heartbeat
+2022/10/07 18:04:37 leader 0 send heartbeat
+2022/10/07 18:04:37 follower 1 receive heartbeat
+2022/10/07 18:04:37 follower 2 receive heartbeat
+2022/10/07 18:04:37 leader 0 send heartbeat
+2022/10/07 18:04:37 follower 2 receive heartbeat
+2022/10/07 18:04:37 follower 1 receive heartbeat
+2022/10/07 18:04:37 leader 0 send heartbeat
+2022/10/07 18:04:37 follower 1 receive heartbeat
+2022/10/07 18:04:37 follower 2 receive heartbeat
+2022/10/07 18:04:37 leader 0 send heartbeat
+2022/10/07 18:04:37 follower 2 receive heartbeat
+2022/10/07 18:04:37 follower 1 receive heartbeat
+2022/10/07 18:04:37 leader 0 send heartbeat
+2022/10/07 18:04:37 follower 2 receive heartbeat
+2022/10/07 18:04:37 follower 1 receive heartbeat
+2022/10/07 18:04:37 leader 0 send heartbeat
+2022/10/07 18:04:37 follower 1 receive heartbeat
+2022/10/07 18:04:37 follower 2 receive heartbeat
+2022/10/07 18:04:37 leader 0 send heartbeat
+2022/10/07 18:04:37 follower 2 receive heartbeat
+2022/10/07 18:04:37 follower 1 receive heartbeat
+2022/10/07 18:04:38 leader 0 send heartbeat
+2022/10/07 18:04:38 follower 1 receive heartbeat
+2022/10/07 18:04:38 follower 2 receive heartbeat
+2022/10/07 18:04:38 leader 0 send heartbeat
+2022/10/07 18:04:38 follower 1 receive heartbeat
+2022/10/07 18:04:38 follower 2 receive heartbeat
+2022/10/07 18:04:38 leader 0 send heartbeat
+2022/10/07 18:04:38 follower 1 receive heartbeat
+2022/10/07 18:04:38 follower 2 receive heartbeat
+2022/10/07 18:04:38 leader 0 send heartbeat
+2022/10/07 18:04:38 follower 1 receive heartbeat
+2022/10/07 18:04:38 follower 2 receive heartbeat
+2022/10/07 18:04:38 leader 0 send heartbeat
+2022/10/07 18:04:38 follower 2 receive heartbeat
+2022/10/07 18:04:38 follower 1 receive heartbeat
+2022/10/07 18:04:38 leader 0 send heartbeat
+2022/10/07 18:04:38 follower 1 receive heartbeat
+2022/10/07 18:04:38 follower 2 receive heartbeat
+2022/10/07 18:04:38 leader 0 send heartbeat
+2022/10/07 18:04:38 follower 2 receive heartbeat
+2022/10/07 18:04:38 follower 1 receive heartbeat
+2022/10/07 18:04:38 leader 0 send heartbeat
+2022/10/07 18:04:38 follower 1 receive heartbeat
+2022/10/07 18:04:38 follower 2 receive heartbeat
+2022/10/07 18:04:38 leader 0 send heartbeat
+2022/10/07 18:04:38 follower 2 receive heartbeat
+2022/10/07 18:04:38 follower 1 receive heartbeat
+2022/10/07 18:04:39 leader 0 send heartbeat
+2022/10/07 18:04:39 follower 1 receive heartbeat
+2022/10/07 18:04:39 follower 2 receive heartbeat
+2022/10/07 18:04:39 leader 0 send heartbeat
+2022/10/07 18:04:39 follower 1 receive heartbeat
+2022/10/07 18:04:39 follower 2 receive heartbeat
+2022/10/07 18:04:39 leader 0 send heartbeat
+2022/10/07 18:04:39 follower 1 receive heartbeat
+2022/10/07 18:04:39 follower 2 receive heartbeat
+2022/10/07 18:04:39 leader 0 send heartbeat
+2022/10/07 18:04:39 follower 2 receive heartbeat
+2022/10/07 18:04:39 follower 1 receive heartbeat
+2022/10/07 18:04:39 leader 0 send heartbeat
+2022/10/07 18:04:39 follower 2 receive heartbeat
+2022/10/07 18:04:39 follower 1 receive heartbeat
+  ... Passed --   3.6  3   63   22552    0
+2022/10/07 18:04:39 node 0 started
+2022/10/07 18:04:39 node 1 started
+2022/10/07 18:04:39 node 2 started
+Test (2A): election after network failure ...
+2022/10/07 18:04:39 leader 0 send heartbeat
+2022/10/07 18:04:40 ticker 0 timeout, becoming candidate
+2022/10/07 18:04:40 ticker 1 timeout, becoming candidate
+2022/10/07 18:04:40 candidate wakeup 0
+2022/10/07 18:04:40 candidate wakeup 0 get rf.mu
+2022/10/07 18:04:40 candidate 0 range 0
+2022/10/07 18:04:40 candidate 0 range 1
+2022/10/07 18:04:40 candidate 0 range 2
+2022/10/07 18:04:40 candidate 0 send requestvote to 2
+2022/10/07 18:04:40 node 2 receive request vote from 0
+2022/10/07 18:04:40 candidate 0 receive valid vote from 2
+2022/10/07 18:04:40 candidate wakeup 1
+2022/10/07 18:04:40 candidate wakeup 1 get rf.mu
+2022/10/07 18:04:40 candidate 1 range 0
+2022/10/07 18:04:40 candidate 1 range 1
+2022/10/07 18:04:40 candidate 1 range 2
+2022/10/07 18:04:40 candidate 1 send requestvote to 2
+2022/10/07 18:04:40 candidate 0 send requestvote to 1
+2022/10/07 18:04:40 node 1 receive request vote from 0
+2022/10/07 18:04:40 candidate 0 receive valid vote from 1
+2022/10/07 18:04:40 candidate 0 become leader
+2022/10/07 18:04:40 follower 2 receive heartbeat
+2022/10/07 18:04:40 node 2 receive request vote from 1
+2022/10/07 18:04:40 follower 1 receive heartbeat
+2022/10/07 18:04:40 candidate 1 send requestvote to 1
+2022/10/07 18:04:40 node 1 receive request vote from 1
+2022/10/07 18:04:40 candidate 1 send requestvote to 0
+2022/10/07 18:04:40 candidate 0 send requestvote to 0
+2022/10/07 18:04:40 node 0 receive request vote from 1
+2022/10/07 18:04:40 node 0 receive request vote from 0
+2022/10/07 18:04:40 leader 0 send heartbeat
+2022/10/07 18:04:40 follower 1 receive heartbeat
+2022/10/07 18:04:40 follower 2 receive heartbeat
+2022/10/07 18:04:40 leader 0 send heartbeat
+2022/10/07 18:04:40 follower 2 receive heartbeat
+2022/10/07 18:04:40 follower 1 receive heartbeat
+2022/10/07 18:04:40 leader 0 send heartbeat
+2022/10/07 18:04:40 leader 0 send heartbeat
+2022/10/07 18:04:40 leader 0 send heartbeat
+2022/10/07 18:04:40 leader 0 send heartbeat
+2022/10/07 18:04:40 leader 0 send heartbeat
+2022/10/07 18:04:40 leader 0 send heartbeat
+2022/10/07 18:04:41 leader 0 send heartbeat
+2022/10/07 18:04:41 leader 0 send heartbeat
+2022/10/07 18:04:41 leader 0 send heartbeat
+2022/10/07 18:04:41 ticker 2 timeout, becoming candidate
+2022/10/07 18:04:41 candidate wakeup 2
+2022/10/07 18:04:41 candidate wakeup 2 get rf.mu
+2022/10/07 18:04:41 candidate 2 range 0
+2022/10/07 18:04:41 candidate 2 range 1
+2022/10/07 18:04:41 candidate 2 send requestvote to 0
+2022/10/07 18:04:41 candidate 2 range 2
+2022/10/07 18:04:41 candidate 2 send requestvote to 2
+2022/10/07 18:04:41 node 2 receive request vote from 2
+2022/10/07 18:04:41 candidate 2 send requestvote to 1
+2022/10/07 18:04:41 node 1 receive request vote from 2
+2022/10/07 18:04:41 ticker 1 timeout, becoming candidate
+2022/10/07 18:04:41 leader 0 send heartbeat
+2022/10/07 18:04:41 leader 0 send heartbeat
+2022/10/07 18:04:41 leader 0 send heartbeat
+2022/10/07 18:04:41 leader 0 send heartbeat
+2022/10/07 18:04:41 leader 0 send heartbeat
+2022/10/07 18:04:41 leader 0 send heartbeat
+2022/10/07 18:04:42 leader 0 send heartbeat
+2022/10/07 18:04:42 leader 0 send heartbeat
+2022/10/07 18:04:42 leader 0 send heartbeat
+2022/10/07 18:04:42 ticker 2 timeout, becoming candidate
+2022/10/07 18:04:42 leader 0 send heartbeat
+2022/10/07 18:04:42 ticker 1 timeout, becoming candidate
+2022/10/07 18:04:42 leader 0 send heartbeat
+2022/10/07 18:04:42 leader 0 send heartbeat
+2022/10/07 18:04:42 leader 0 send heartbeat
+2022/10/07 18:04:42 leader 0 send heartbeat
+2022/10/07 18:04:42 leader 0 send heartbeat
+2022/10/07 18:04:42 leader 0 send heartbeat
+2022/10/07 18:04:43 leader 0 send heartbeat
+2022/10/07 18:04:43 ticker 2 timeout, becoming candidate
+2022/10/07 18:04:43 leader 0 send heartbeat
+2022/10/07 18:04:43 leader 0 send heartbeat
+2022/10/07 18:04:43 leader 0 send heartbeat
+2022/10/07 18:04:43 ticker 1 timeout, becoming candidate
+2022/10/07 18:04:43 leader 0 send heartbeat
+2022/10/07 18:04:43 leader 0 send heartbeat
+2022/10/07 18:04:43 leader 0 send heartbeat
+2022/10/07 18:04:43 leader 0 send heartbeat
+2022/10/07 18:04:43 leader 0 send heartbeat
+2022/10/07 18:04:43 ticker 2 timeout, becoming candidate
+2022/10/07 18:04:43 leader 0 send heartbeat
+2022/10/07 18:04:44 ticker 1 timeout, becoming candidate
+2022/10/07 18:04:44 leader 0 send heartbeat
+2022/10/07 18:04:44 leader 0 send heartbeat
+2022/10/07 18:04:44 leader 0 send heartbeat
+2022/10/07 18:04:44 leader 0 send heartbeat
+2022/10/07 18:04:44 leader 0 send heartbeat
+2022/10/07 18:04:44 ticker 2 timeout, becoming candidate
+2022/10/07 18:04:44 leader 0 send heartbeat
+2022/10/07 18:04:44 leader 0 send heartbeat
+2022/10/07 18:04:44 ticker 1 timeout, becoming candidate
+2022/10/07 18:04:44 leader 0 send heartbeat
+2022/10/07 18:04:44 leader 0 send heartbeat
+2022/10/07 18:04:44 leader 0 send heartbeat
+2022/10/07 18:04:45 leader 0 send heartbeat
+2022/10/07 18:04:45 leader 0 send heartbeat
+2022/10/07 18:04:45 leader 0 send heartbeat
+2022/10/07 18:04:45 leader 0 send heartbeat
+2022/10/07 18:04:45 ticker 2 timeout, becoming candidate
+--- FAIL: TestReElection2A (5.98s)
+    config.go:460: expected one leader, got none
+2022/10/07 18:04:45 node 0 started
+2022/10/07 18:04:45 node 1 started
+2022/10/07 18:04:45 node 2 started
+2022/10/07 18:04:45 node 3 started
+2022/10/07 18:04:45 node 4 started
+2022/10/07 18:04:45 node 5 started
+2022/10/07 18:04:45 node 6 started
+Test (2A): multiple elections ...
+2022/10/07 18:04:45 leader 0 send heartbeat
+2022/10/07 18:04:46 ticker 2 timeout, becoming candidate
+2022/10/07 18:04:46 ticker 4 timeout, becoming candidate
+2022/10/07 18:04:46 candidate wakeup 4
+2022/10/07 18:04:46 candidate wakeup 4 get rf.mu
+2022/10/07 18:04:46 candidate 4 range 0
+2022/10/07 18:04:46 candidate 4 range 1
+2022/10/07 18:04:46 candidate 4 range 2
+2022/10/07 18:04:46 candidate 4 range 3
+2022/10/07 18:04:46 candidate 4 range 4
+2022/10/07 18:04:46 candidate 4 range 5
+2022/10/07 18:04:46 candidate 4 range 6
+2022/10/07 18:04:46 candidate 4 send requestvote to 6
+2022/10/07 18:04:46 node 6 receive request vote from 4
+2022/10/07 18:04:46 candidate 4 receive valid vote from 6
+2022/10/07 18:04:46 candidate wakeup 2
+2022/10/07 18:04:46 candidate wakeup 2 get rf.mu
+2022/10/07 18:04:46 candidate 2 range 0
+2022/10/07 18:04:46 candidate 2 range 1
+2022/10/07 18:04:46 candidate 2 range 2
+2022/10/07 18:04:46 candidate 2 range 3
+2022/10/07 18:04:46 candidate 2 range 4
+2022/10/07 18:04:46 candidate 2 range 5
+2022/10/07 18:04:46 candidate 2 range 6
+2022/10/07 18:04:46 candidate 2 send requestvote to 6
+2022/10/07 18:04:46 node 6 receive request vote from 2
+2022/10/07 18:04:46 candidate 4 send requestvote to 5
+2022/10/07 18:04:46 candidate 2 send requestvote to 3
+2022/10/07 18:04:46 candidate 4 send requestvote to 0
+2022/10/07 18:04:46 candidate 4 send requestvote to 4
+2022/10/07 18:04:46 node 5 receive request vote from 4
+2022/10/07 18:04:46 node 3 receive request vote from 2
+2022/10/07 18:04:46 candidate 4 send requestvote to 1
+2022/10/07 18:04:46 candidate 2 receive valid vote from 3
+2022/10/07 18:04:46 node 0 receive request vote from 4
+2022/10/07 18:04:46 node 1 receive request vote from 4
+2022/10/07 18:04:46 candidate 2 send requestvote to 4
+2022/10/07 18:04:46 candidate 2 send requestvote to 5
+2022/10/07 18:04:46 node 4 receive request vote from 2
+2022/10/07 18:04:46 node 5 receive request vote from 2
+2022/10/07 18:04:46 candidate 2 receive valid vote from 5
+2022/10/07 18:04:46 candidate 4 send requestvote to 2
+2022/10/07 18:04:46 node 2 receive request vote from 4
+2022/10/07 18:04:46 candidate 4 send requestvote to 3
+2022/10/07 18:04:46 node 3 receive request vote from 4
+2022/10/07 18:04:46 candidate 2 send requestvote to 2
+2022/10/07 18:04:46 node 2 receive request vote from 2
+2022/10/07 18:04:46 candidate 2 receive valid vote from 2
+2022/10/07 18:04:46 node 4 receive request vote from 4
+2022/10/07 18:04:46 candidate 2 send requestvote to 1
+2022/10/07 18:04:46 node 1 receive request vote from 2
+2022/10/07 18:04:46 candidate 2 receive valid vote from 1
+2022/10/07 18:04:46 candidate 2 become leader
+2022/10/07 18:04:46 follower 6 receive heartbeat
+2022/10/07 18:04:46 candidate 4 receive valid vote from 5
+2022/10/07 18:04:46 candidate 4 receive valid vote from 0
+2022/10/07 18:04:46 candidate 4 receive valid vote from 1
+2022/10/07 18:04:46 candidate 4 become leader
+2022/10/07 18:04:46 candidate 2 send requestvote to 0
+2022/10/07 18:04:46 follower 6 receive heartbeat
+2022/10/07 18:04:46 follower 1 receive heartbeat
+2022/10/07 18:04:46 follower 0 receive heartbeat
+2022/10/07 18:04:46 follower 0 receive heartbeat
+2022/10/07 18:04:46 follower 3 receive heartbeat
+2022/10/07 18:04:46 follower 5 receive heartbeat
+2022/10/07 18:04:46 follower 1 receive heartbeat
+2022/10/07 18:04:46 node 0 receive request vote from 2
+2022/10/07 18:04:46 follower 3 receive heartbeat
+2022/10/07 18:04:46 follower 5 receive heartbeat
+2022/10/07 18:04:46 leader 2 send heartbeat
+2022/10/07 18:04:46 follower 0 receive heartbeat
+2022/10/07 18:04:46 follower 5 receive heartbeat
+2022/10/07 18:04:46 follower 0 receive heartbeat
+2022/10/07 18:04:46 leader 4 send heartbeat
+2022/10/07 18:04:46 follower 1 receive heartbeat
+2022/10/07 18:04:46 follower 6 receive heartbeat
+2022/10/07 18:04:46 follower 3 receive heartbeat
+2022/10/07 18:04:46 follower 5 receive heartbeat
+2022/10/07 18:04:46 follower 3 receive heartbeat
+2022/10/07 18:04:46 follower 1 receive heartbeat
+2022/10/07 18:04:46 follower 6 receive heartbeat
+2022/10/07 18:04:46 leader 2 send heartbeat
+2022/10/07 18:04:46 leader 4 send heartbeat
+2022/10/07 18:04:46 follower 0 receive heartbeat
+2022/10/07 18:04:46 follower 6 receive heartbeat
+2022/10/07 18:04:46 follower 5 receive heartbeat
+2022/10/07 18:04:46 follower 6 receive heartbeat
+2022/10/07 18:04:46 follower 1 receive heartbeat
+2022/10/07 18:04:46 follower 3 receive heartbeat
+2022/10/07 18:04:46 follower 3 receive heartbeat
+2022/10/07 18:04:46 follower 1 receive heartbeat
+2022/10/07 18:04:46 follower 0 receive heartbeat
+2022/10/07 18:04:46 follower 5 receive heartbeat
+2022/10/07 18:04:46 leader 2 send heartbeat
+2022/10/07 18:04:46 leader 4 send heartbeat
+2022/10/07 18:04:46 follower 6 receive heartbeat
+2022/10/07 18:04:46 follower 0 receive heartbeat
+2022/10/07 18:04:46 follower 1 receive heartbeat
+2022/10/07 18:04:46 follower 3 receive heartbeat
+2022/10/07 18:04:46 follower 5 receive heartbeat
+2022/10/07 18:04:46 follower 1 receive heartbeat
+2022/10/07 18:04:46 follower 5 receive heartbeat
+2022/10/07 18:04:46 follower 3 receive heartbeat
+2022/10/07 18:04:46 follower 0 receive heartbeat
+2022/10/07 18:04:46 follower 6 receive heartbeat
+--- FAIL: TestManyElections2A (0.92s)
+    config.go:449: term 1 has 2 (>1) leaders
+FAIL
+exit status 1
+FAIL	6.824/raft	10.475s
