@@ -19,6 +19,7 @@ import (
 
 func main() {
 	if len(os.Args) < 2 {
+		// check if inputfiles specified
 		fmt.Fprintf(os.Stderr, "Usage: mrcoordinator inputfiles...\n")
 		os.Exit(1)
 	}

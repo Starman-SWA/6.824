@@ -21,6 +21,7 @@ import (
 
 func main() {
 	if len(os.Args) != 2 {
+		// check if .so module specified
 		fmt.Fprintf(os.Stderr, "Usage: mrworker xxx.so\n")
 		os.Exit(1)
 	}

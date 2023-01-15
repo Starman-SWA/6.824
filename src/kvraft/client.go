@@ -1,13 +1,21 @@
 package kvraft
 
-import "6.824/labrpc"
-import "crypto/rand"
-import "math/big"
+import (
+	"crypto/rand"
+	"math/big"
+	"sync"
+	"time"
 
+	"6.824/labrpc"
+)
 
 type Clerk struct {
 	servers []*labrpc.ClientEnd
 	// You will have to modify this struct.
+	maxOpIndex int
+	mu         sync.Mutex
+	id         int
+	leaderId   int
 }
 
 func nrand() int64 {
@@ -21,6 +29,9 @@ func MakeClerk(servers []*labrpc.ClientEnd) *Clerk {
 	ck := new(Clerk)
 	ck.servers = servers
 	// You'll have to add code here.
+	ck.maxOpIndex = 0
+	ck.id = time.Now().Nanosecond()
+	DPrintf("making clerk, id==%v\n", ck.id)
 	return ck
 }
 
@@ -37,9 +48,34 @@ func MakeClerk(servers []*labrpc.ClientEnd) *Clerk {
 // arguments. and reply must be passed as a pointer.
 //
 func (ck *Clerk) Get(key string) string {
-
 	// You will have to modify this function.
-	return ""
+	ck.mu.Lock()
+	ck.maxOpIndex++
+	opIndex := ck.maxOpIndex
+	ck.mu.Unlock()
+
+	i := ck.leaderId
+	args := GetArgs{Key: key, OpIndex: opIndex, ClientId: ck.id}
+	reply := GetReply{}
+
+	for {
+		DPrintf("client: calling Get to server %v, Key: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.OpIndex, args.ClientId)
+		ok := ck.servers[i].Call("KVServer.Get", &args, &reply)
+		if !ok || reply.Err == ErrWrongLeader {
+			DPrintf("client: Get to server %v return wrongleader, Key: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.OpIndex, args.ClientId)
+			i = (i + 1) % len(ck.servers)
+		} else {
+			ck.leaderId = i
+			break
+		}
+	}
+
+	DPrintf("client: Get to server %v ok, Key: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.OpIndex, args.ClientId)
+	if reply.Err == ErrNoKey {
+		return ""
+	} else {
+		return reply.Value
+	}
 }
 
 //
@@ -54,6 +90,27 @@ func (ck *Clerk) Get(key string) string {
 //
 func (ck *Clerk) PutAppend(key string, value string, op string) {
 	// You will have to modify this function.
+	ck.mu.Lock()
+	ck.maxOpIndex++
+	opIndex := ck.maxOpIndex
+	ck.mu.Unlock()
+
+	i := ck.leaderId
+	args := PutAppendArgs{Key: key, Value: value, Op: op, OpIndex: opIndex, ClientId: ck.id}
+	reply := PutAppendReply{}
+
+	for {
+		DPrintf("client: calling PutAppend to server %v, Key: %v, Value: %v, Op: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.Value, args.Op, args.OpIndex, args.ClientId)
+		ok := ck.servers[i].Call("KVServer.PutAppend", &args, &reply)
+		if !ok || reply.Err == ErrWrongLeader {
+			DPrintf("client: PutAppend to server %v return wrongleader, Key: %v, Value: %v, Op: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.Value, args.Op, args.OpIndex, args.ClientId)
+			i = (i + 1) % len(ck.servers)
+		} else {
+			ck.leaderId = i
+			break
+		}
+	}
+	DPrintf("client: PutAppend to server %v ok, Key: %v, Value: %v, Op: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.Value, args.Op, args.OpIndex, args.ClientId)
 }
 
 func (ck *Clerk) Put(key string, value string) {
