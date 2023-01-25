@@ -32,6 +32,7 @@ func DPrintf2(format string, a ...interface{}) (n int, err error) {
 
 const CHECK_APPLYCH_INTERVAL = 100      // μs
 const CHECK_CLIENTAPPLIED_TIMEOUT = 500 // ms
+const CHECK_SNAPSHOT_INTERVAL = 50      // ms
 
 type Op struct {
 	// Your definitions here.
@@ -62,6 +63,9 @@ type KVServer struct {
 	// appliedLogs   string // for test
 	maxOpIndexs   map[int]int // the latest operation that server has applied for each client
 	clientApplied map[int]chan OpFields
+
+	ps              *raft.Persister
+	maxCommandIndex int
 }
 
 func (op *Op) EncodeOp(opf OpFields) {
@@ -269,25 +273,76 @@ func (kv *KVServer) applyLogs() {
 	for kv.killed() == false {
 		applyMsg := <-kv.applyCh
 
-		op, ok := applyMsg.Command.(Op)
-		if !ok {
-			log.Fatal(errors.New("applyMsg type error"))
-		}
-		opf := op.DecodeOp()
+		if applyMsg.CommandValid {
+			op, ok := applyMsg.Command.(Op)
+			if !ok {
+				log.Fatal(errors.New("applyMsg type error"))
+			}
+			opf := op.DecodeOp()
 
-		DPrintf("%v server: applyCh receive logIdx: %v, OpIndex: %v, Key: %v, value: %v, ClientId: %v\n", kv.me, applyMsg.CommandIndex, opf.opIndex, opf.key, opf.value, opf.ckId)
-		kv.mu.Lock()
-		if opf.opIndex > kv.maxOpIndexs[opf.ckId] {
-			kv.OperatePutAppend(opf)
-			kv.maxOpIndexs[opf.ckId] = opf.opIndex
-		}
-		kv.mu.Unlock()
+			DPrintf("%v server: applyCh receive logIdx: %v, OpIndex: %v, Key: %v, value: %v, ClientId: %v\n", kv.me, applyMsg.CommandIndex, opf.opIndex, opf.key, opf.value, opf.ckId)
+			kv.mu.Lock()
+			kv.maxCommandIndex = applyMsg.CommandIndex
+			if opf.opIndex > kv.maxOpIndexs[opf.ckId] {
+				kv.OperatePutAppend(opf)
+				kv.maxOpIndexs[opf.ckId] = opf.opIndex
+			}
+			kv.mu.Unlock()
 
-		select {
-		case kv.clientApplied[opf.ckId] <- opf:
-		default:
+			select {
+			case kv.clientApplied[opf.ckId] <- opf:
+			default:
+			}
+		} else if applyMsg.SnapshotValid {
+			kv.decodeAndApplySnapshot(applyMsg.Snapshot)
 		}
 	}
+}
+
+func (kv *KVServer) checkSnapshot() {
+	for !kv.killed() {
+		time.Sleep(CHECK_SNAPSHOT_INTERVAL * time.Millisecond)
+
+		size := kv.ps.RaftStateSize()
+		if size >= kv.maxraftstate {
+			kv.mu.Lock()
+			maxCommandIndex := kv.maxCommandIndex
+			snapshot := kv.encodeSnapshot()
+			kv.mu.Unlock()
+			kv.rf.Snapshot(maxCommandIndex, snapshot)
+		}
+	}
+}
+
+// call with lock
+func (kv *KVServer) encodeSnapshot() []byte {
+	w := new(bytes.Buffer)
+	e := labgob.NewEncoder(w)
+	e.Encode(kv.table)
+	e.Encode(kv.maxOpIndexs)
+	e.Encode(kv.maxCommandIndex)
+	snapshot := w.Bytes()
+
+	return snapshot
+}
+
+func (kv *KVServer) decodeAndApplySnapshot(snapshot []byte) {
+	r := bytes.NewBuffer(snapshot)
+	d := labgob.NewDecoder(r)
+	var table map[string]string
+	var maxOpIndexs map[int]int
+	var maxCommandIndex int
+	if d.Decode(&table) != nil ||
+		d.Decode(&maxOpIndexs) != nil ||
+		d.Decode(&maxCommandIndex) != nil {
+		DPrintf("server %d: snapshot decoding error", kv.me)
+		return
+	}
+	kv.mu.Lock()
+	kv.table = table
+	kv.maxOpIndexs = maxOpIndexs
+	kv.maxCommandIndex = maxCommandIndex
+	kv.mu.Unlock()
 }
 
 //
@@ -322,7 +377,18 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 	kv.table = make(map[string]string)
 	kv.maxOpIndexs = make(map[int]int)
 	kv.clientApplied = make(map[int]chan OpFields)
+	kv.ps = persister
+	kv.maxCommandIndex = 0
+
+	snapshot := persister.ReadSnapshot()
+	if snapshot != nil {
+		kv.decodeAndApplySnapshot(snapshot)
+	}
+
 	go kv.applyLogs()
+	if maxraftstate != -1 {
+		go kv.checkSnapshot()
+	}
 
 	DPrintf("%v server: server start\n", kv.me)
 	return kv
