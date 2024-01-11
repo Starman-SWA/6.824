@@ -55,13 +55,16 @@ func (ck *Clerk) Get(key string) string {
 	ck.mu.Unlock()
 
 	i := ck.leaderId
-	args := GetArgs{Key: key, OpIndex: opIndex, ClientId: ck.id}
-	reply := GetReply{}
+	args := &GetArgs{Key: key, OpIndex: opIndex, ClientId: ck.id}
+	reply := &GetReply{}
 
 	for {
 		DPrintf("client: calling Get to server %v, Key: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.OpIndex, args.ClientId)
-		ok := ck.servers[i].Call("KVServer.Get", &args, &reply)
-		if !ok || reply.Err == ErrWrongLeader {
+		ok := ck.servers[i].Call("KVServer.Get", args, reply)
+		if !ok {
+			DPrintf("client: Get to server %v return not ok, Key: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.OpIndex, args.ClientId)
+			i = (i + 1) % len(ck.servers)
+		} else if reply.Err == ErrWrongLeader {
 			DPrintf("client: Get to server %v return wrongleader, Key: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.OpIndex, args.ClientId)
 			i = (i + 1) % len(ck.servers)
 		} else {
@@ -96,13 +99,17 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 	ck.mu.Unlock()
 
 	i := ck.leaderId
-	args := PutAppendArgs{Key: key, Value: value, Op: op, OpIndex: opIndex, ClientId: ck.id}
-	reply := PutAppendReply{}
+	args := &PutAppendArgs{Key: key, Value: value, Op: op, OpIndex: opIndex, ClientId: ck.id}
+	reply := &PutAppendReply{}
 
+	DPrintf("client: PutAppend start, key:%v, value:%v, op:%v\n", key, value, op)
 	for {
 		DPrintf("client: calling PutAppend to server %v, Key: %v, Value: %v, Op: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.Value, args.Op, args.OpIndex, args.ClientId)
-		ok := ck.servers[i].Call("KVServer.PutAppend", &args, &reply)
-		if !ok || reply.Err == ErrWrongLeader {
+		ok := ck.servers[i].Call("KVServer.PutAppend", args, reply)
+		if !ok {
+			DPrintf("client: PutAppend to server %v return not ok, Key: %v, Value: %v, Op: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.Value, args.Op, args.OpIndex, args.ClientId)
+			i = (i + 1) % len(ck.servers)
+		} else if reply.Err == ErrWrongLeader {
 			DPrintf("client: PutAppend to server %v return wrongleader, Key: %v, Value: %v, Op: %v, OpIndex: %v, ClientId: %v\n", i, args.Key, args.Value, args.Op, args.OpIndex, args.ClientId)
 			i = (i + 1) % len(ck.servers)
 		} else {

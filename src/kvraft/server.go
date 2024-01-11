@@ -15,6 +15,7 @@ import (
 
 const Debug = false
 const Debug2 = false
+const Debug4 = false
 
 func DPrintf(format string, a ...interface{}) (n int, err error) {
 	if Debug {
@@ -30,8 +31,14 @@ func DPrintf2(format string, a ...interface{}) (n int, err error) {
 	return
 }
 
-const CHECK_APPLYCH_INTERVAL = 100      // μs
-const CHECK_CLIENTAPPLIED_TIMEOUT = 500 // ms
+func DPrintf4(format string, a ...interface{}) (n int, err error) {
+	if Debug4 {
+		log.Printf(format, a...)
+	}
+	return
+}
+
+const CHECK_CLIENTAPPLIED_TIMEOUT = 300 // ms
 const CHECK_SNAPSHOT_INTERVAL = 50      // ms
 
 type Op struct {
@@ -49,6 +56,16 @@ type OpFields struct {
 	ckId    int
 }
 
+type OpRecv struct {
+	opFields  *OpFields
+	opTerm    int
+	committed chan byte // to wake up all the clerks waiting for log committed at this index
+
+	wrongLeader  bool
+	getKeyExists bool
+	getValue     string
+}
+
 type KVServer struct {
 	mu      sync.Mutex
 	me      int
@@ -61,14 +78,16 @@ type KVServer struct {
 	// Your definitions here.
 	table map[string]string // the database
 	// appliedLogs   string // for test
-	maxOpIndexs   map[int]int // the latest operation that server has applied for each client
-	clientApplied map[int]chan OpFields
+	clientMaxOpIndexs map[int]int     // the latest operation that server has applied for each client
+	indexOpRecvs      map[int]*OpRecv // op received from Raft at index
 
-	ps              *raft.Persister
 	maxCommandIndex int
+
+	ps *raft.Persister
 }
 
 func (op *Op) EncodeOp(opf OpFields) {
+	DPrintf("EncodeOp %v\n", opf)
 	w := new(bytes.Buffer)
 	e := labgob.NewEncoder(w)
 	e.Encode(opf.opIndex)
@@ -109,17 +128,19 @@ func (op *Op) DecodeOp() OpFields {
 		log.Fatal(errors.New("op ckId decoding error"))
 	}
 
+	DPrintf("Decode %v\n", opf)
 	return opf
 }
 
 func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
 	// Your code here.
-	DPrintf("%v server: handling Get RPC, OpIndex: %v, Key: %v, ClientId: %v, maxOpIndex:%v\n", kv.me, args.OpIndex, args.Key, args.ClientId, kv.maxOpIndexs[args.ClientId])
+	DPrintf("%v server: handling Get RPC, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
 	//DPrintf("%v server: applied log %v", kv.me, kv.appliedLogs)
 
 	op := Op{}
-	op.EncodeOp(OpFields{opIndex: args.OpIndex, oper: "Get", key: args.Key, ckId: args.ClientId})
-	_, _, isLeader := kv.rf.Start(op)
+	opFields := OpFields{opIndex: args.OpIndex, oper: "Get", key: args.Key, ckId: args.ClientId}
+	op.EncodeOp(opFields)
+	startIndex, startTerm, isLeader := kv.rf.Start(op)
 
 	if !isLeader {
 		DPrintf("%v server: Get RPC reply ErrWrongLeader\n", kv.me)
@@ -127,57 +148,39 @@ func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
 		return
 	}
 
+	DPrintf("%v server: Get RPC start process\n", kv.me)
+
+	opRecv := OpRecv{opFields: &opFields, committed: make(chan byte), opTerm: startTerm}
 	kv.mu.Lock()
-	if args.OpIndex == kv.maxOpIndexs[args.ClientId] {
-		if value, ok := kv.table[args.Key]; ok {
-			DPrintf("%v server: Get RPC return OK, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
-			*reply = GetReply{Err: OK, Value: value}
-		} else {
-			DPrintf("%v server: Get RPC return ErrNoKey, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
-			*reply = GetReply{Err: ErrNoKey}
-		}
-		kv.mu.Unlock()
-		return
-	}
+	kv.indexOpRecvs[startIndex] = &opRecv
 	kv.mu.Unlock()
 
-	kv.mu.Lock()
-	DPrintf2("%v server: Get RPC get lock, Key: %v, OpIndex: %v, ClientId: %v\n", kv.me, args.Key, args.OpIndex, args.ClientId)
-	if kv.clientApplied[args.ClientId] == nil {
-		kv.clientApplied[args.ClientId] = make(chan OpFields)
-	}
-	kv.mu.Unlock()
-	DPrintf2("%v server: Get RPC release lock, args==%v\n", kv.me, args)
+	DPrintf("%v server: Get RPC waiting\n", kv.me)
 
 	select {
-	case opf := <-kv.clientApplied[args.ClientId]:
-		kv.mu.Lock()
-		if opf.opIndex >= args.OpIndex {
-			if value, ok := kv.table[args.Key]; ok {
-				DPrintf("%v server: Get RPC return OK, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
-				*reply = GetReply{Err: OK, Value: value}
-				// DPrintf("%v server: (%v,%v)\n", kv.me, opf.key, kv.table[opf.key])
-				// kv.appliedLogs += fmt.Sprintf("(%v,%v,%v,%v,%v) ", opf.opIndex, opf.oper, opf.key, opf.value, opf.ckId)
-				// DPrintf("%v server: applied log %v", kv.me, kv.appliedLogs)
-			} else {
-				DPrintf("%v server: Get RPC return ErrNoKey, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
-				*reply = GetReply{Err: ErrNoKey}
-			}
-			kv.maxOpIndexs[args.ClientId] = opf.opIndex
-
-		} else { // should not exist
-			DPrintf("%v server: Get RPC reply ErrWrongLeader due to out-of-date, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
+	case <-opRecv.committed:
+		if opRecv.wrongLeader {
 			*reply = GetReply{Err: ErrWrongLeader}
+			DPrintf("%v server: Get RPC reply ErrWrongLeader after commited, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
+		} else if !opRecv.getKeyExists {
+			*reply = GetReply{Err: ErrNoKey}
+			DPrintf("%v server: Get RPC reply ErrNoKey, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
+		} else {
+			*reply = GetReply{Err: OK, Value: opRecv.getValue}
+			DPrintf("%v server: Get RPC reply value, OpIndex: %v, Key: %v, ClientId: %v, Value: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId, opRecv.getValue)
 		}
-		kv.mu.Unlock()
 	case <-time.After(CHECK_CLIENTAPPLIED_TIMEOUT * time.Millisecond):
 		DPrintf("%v server: Get RPC reply ErrWrongLeader due to timeout, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
 		*reply = GetReply{Err: ErrWrongLeader}
 	}
 
 	kv.mu.Lock()
-	delete(kv.clientApplied, args.ClientId)
+	if kv.indexOpRecvs[startIndex].opFields == &opFields {
+		delete(kv.indexOpRecvs, args.ClientId)
+	}
 	kv.mu.Unlock()
+
+	DPrintf("%v server: PutAppend RPC end", kv.me)
 }
 
 // Operate Put or Append Op
@@ -191,61 +194,49 @@ func (kv *KVServer) OperatePutAppend(opf OpFields) {
 
 func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	// Your code here.
-	DPrintf("%v server: handling PutAppend RPC, OpIndex: %v, Key: %v, ClientId: %v, maxOpIndex:%v\n", kv.me, args.OpIndex, args.Key, args.ClientId, kv.maxOpIndexs[args.ClientId])
-
+	DPrintf("%v server: handling PutAppend RPC, args:%v\n", kv.me, args)
 	//DPrintf("%v server: applied log %v", kv.me, kv.appliedLogs)
 
 	op := Op{}
-	op.EncodeOp(OpFields{opIndex: args.OpIndex, oper: args.Op, key: args.Key, value: args.Value, ckId: args.ClientId})
-	_, _, isLeader := kv.rf.Start(op)
+	opFields := OpFields{opIndex: args.OpIndex, oper: args.Op, key: args.Key, value: args.Value, ckId: args.ClientId}
+	op.EncodeOp(opFields)
+	startIndex, startTerm, isLeader := kv.rf.Start(op)
 
 	if !isLeader {
-		DPrintf("%v server: PutAppend RPC reply ErrWrongLeader, OpIndex: %v, Key: %v, value: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.Value, args.ClientId)
+		DPrintf("%v server: PutAppend RPC reply ErrWrongLeader\n", kv.me)
 		*reply = PutAppendReply{Err: ErrWrongLeader}
 		return
 	}
 
+	DPrintf("%v server: PutAppend RPC start process\n", kv.me)
+
+	opRecv := OpRecv{opFields: &opFields, committed: make(chan byte), opTerm: startTerm}
 	kv.mu.Lock()
-	if args.OpIndex == kv.maxOpIndexs[args.ClientId] {
-		DPrintf("%v server: PutAppend RPC return OK, OpIndex: %v, Key: %v, value: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.Value, args.ClientId)
-		*reply = PutAppendReply{Err: OK}
-		kv.mu.Unlock()
-		return
-	}
+	kv.indexOpRecvs[startIndex] = &opRecv
 	kv.mu.Unlock()
 
-	kv.mu.Lock()
-	DPrintf2("%v server: PutAppend RPC get lock, Key: %v, Value: %v, Op: %v, OpIndex: %v, ClientId: %v\n", kv.me, args.Key, args.Value, args.Op, args.OpIndex, args.ClientId)
-	if kv.clientApplied[args.ClientId] == nil {
-		kv.clientApplied[args.ClientId] = make(chan OpFields)
-	}
-	kv.mu.Unlock()
-	DPrintf2("%v server: PutAppend RPC release lock, args==%v\n", kv.me, args)
-
+	DPrintf("%v server: PutAppend RPC waiting\n", kv.me)
 	select {
-	case opf := <-kv.clientApplied[args.ClientId]:
-		kv.mu.Lock()
-		if opf.opIndex >= args.OpIndex {
-			DPrintf("%v server: PutAppend RPC return OK, OpIndex: %v, Key: %v, value: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.Value, args.ClientId)
-			// kv.OperatePutAppend(opf)
-			// kv.maxOpIndexs[args.ClientId] = opf.opIndex
-			*reply = PutAppendReply{Err: OK}
-			// DPrintf("%v server: (%v,%v)\n", kv.me, opf.key, kv.table[opf.key])
-			// kv.appliedLogs += fmt.Sprintf("(%v,%v,%v,%v,%v) ", opf.opIndex, opf.oper, opf.key, opf.value, opf.ckId)
-			// DPrintf("%v server: applied log %v", kv.me, kv.appliedLogs)
-		} else { // should not exist
-			DPrintf("%v server: PutAppend RPC reply ErrWrongLeader due to out-of-date, OpIndex: %v, Key: %v, value: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.Value, args.ClientId)
+	case <-opRecv.committed:
+		if opRecv.wrongLeader {
 			*reply = PutAppendReply{Err: ErrWrongLeader}
+			DPrintf("%v server: PutAppend RPC reply ErrWrongLeader after committed, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
+		} else {
+			*reply = PutAppendReply{Err: OK}
+			DPrintf("%v server: PutAppend RPC reply success, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
 		}
-		kv.mu.Unlock()
 	case <-time.After(CHECK_CLIENTAPPLIED_TIMEOUT * time.Millisecond):
-		DPrintf("%v server: PutAppend RPC reply ErrWrongLeader due to timeout, OpIndex: %v, Key: %v, value: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.Value, args.ClientId)
+		DPrintf("%v server: PutAppend RPC reply ErrWrongLeader due to timeout, OpIndex: %v, Key: %v, ClientId: %v\n", kv.me, args.OpIndex, args.Key, args.ClientId)
 		*reply = PutAppendReply{Err: ErrWrongLeader}
 	}
 
 	kv.mu.Lock()
-	delete(kv.clientApplied, args.ClientId)
+	if kv.indexOpRecvs[startIndex].opFields == &opFields {
+		delete(kv.indexOpRecvs, args.ClientId)
+	}
 	kv.mu.Unlock()
+
+	DPrintf("%v server: PutAppend RPC end", kv.me)
 }
 
 //
@@ -270,46 +261,98 @@ func (kv *KVServer) killed() bool {
 }
 
 func (kv *KVServer) applyLogs() {
+	count := 0
 	for kv.killed() == false {
 		applyMsg := <-kv.applyCh
+		count++
+		DPrintf4("%v server: <- count:%v, applyMsg:%v\n", kv.me, count, applyMsg)
 
 		if applyMsg.CommandValid {
+			DPrintf4("%v server: <- count:%v, command start\n", kv.me, count)
 			op, ok := applyMsg.Command.(Op)
 			if !ok {
 				log.Fatal(errors.New("applyMsg type error"))
 			}
 			opf := op.DecodeOp()
 
-			DPrintf("%v server: applyCh receive logIdx: %v, OpIndex: %v, Key: %v, value: %v, ClientId: %v\n", kv.me, applyMsg.CommandIndex, opf.opIndex, opf.key, opf.value, opf.ckId)
 			kv.mu.Lock()
-			kv.maxCommandIndex = applyMsg.CommandIndex
-			if opf.opIndex > kv.maxOpIndexs[opf.ckId] {
-				kv.OperatePutAppend(opf)
-				kv.maxOpIndexs[opf.ckId] = opf.opIndex
-			}
-			kv.mu.Unlock()
 
-			select {
-			case kv.clientApplied[opf.ckId] <- opf:
-			default:
+			opRecv, opRecvExists := kv.indexOpRecvs[applyMsg.CommandIndex]
+			prevOpIndex, prevOpIndexExists := kv.clientMaxOpIndexs[opf.ckId]
+			DPrintf("%v server: applyLogs decode op, CommandIndex:%v, opf:%v", kv.me, applyMsg.CommandIndex, opf)
+			if opRecvExists {
+				DPrintf("%v server: applyLogs opRecv:%v", kv.me, opRecv)
 			}
+			if prevOpIndexExists {
+				DPrintf("%v server: applyLogs prevOpIndex:%v", kv.me, prevOpIndex)
+			}
+			kv.clientMaxOpIndexs[opf.ckId] = opf.opIndex
+
+			kv.maxCommandIndex = applyMsg.CommandIndex
+
+			if opRecvExists && opRecv.opTerm != applyMsg.CommandTerm {
+				opRecv.wrongLeader = true
+			}
+
+			if opf.oper == "Put" || opf.oper == "Append" {
+				if !prevOpIndexExists || prevOpIndex < opf.opIndex {
+					DPrintf("%v server: operate putappend: %v %v %v\n", kv.me, opf.key, opf.oper, opf.value)
+					kv.OperatePutAppend(opf)
+					DPrintf("%v server: result of put: table[%v]=%v\n", kv.me, opf.key, kv.table[opf.key])
+				} else if opRecvExists {
+					//opRecv.wrongLeader = true
+				}
+			} else if opf.oper == "Get" && opRecvExists {
+				opRecv.getValue, opRecv.getKeyExists = kv.table[opf.key]
+				DPrintf("%v server: result of get: table[%v]=%v\n", kv.me, opf.key, kv.table[opf.key])
+			}
+
+			kv.mu.Unlock()
+			DPrintf("%v server: applyLogs process done", kv.me)
+
+			if opRecvExists {
+				close(opRecv.committed)
+			}
+			DPrintf("%v server: applyLogs close committed done", kv.me)
+			DPrintf4("%v server: <- count:%v, command end\n", kv.me, count)
 		} else if applyMsg.SnapshotValid {
-			kv.decodeAndApplySnapshot(applyMsg.Snapshot)
+			DPrintf4("%v server: <- count:%v, snapshot start\n", kv.me, count)
+
+			// if applyMsg.CommandIndex <= kv.maxCommandIndex {
+			// 	kv.mu.Unlock()
+			// 	continue
+			// }
+
+			DPrintf4("%v server: condinstallsnapshot wait, applyMsg:%v\n", kv.me, applyMsg)
+			if kv.rf.CondInstallSnapshot(applyMsg.SnapshotTerm, applyMsg.SnapshotIndex, applyMsg.Snapshot) {
+				DPrintf4("%v server: condinstallsnapshot ok", kv.me)
+				kv.decodeAndApplySnapshot(applyMsg.Snapshot)
+			}
+			DPrintf4("%v server: condinstallsnapshot done", kv.me)
+
+			DPrintf4("%v server: <- count:%v, snapshot end\n", kv.me, count)
 		}
 	}
 }
 
 func (kv *KVServer) checkSnapshot() {
 	for !kv.killed() {
+		DPrintf4("%v server: too large size sleeping\n", kv.me)
 		time.Sleep(CHECK_SNAPSHOT_INTERVAL * time.Millisecond)
 
+		DPrintf4("%v server: too large size reading\n", kv.me)
 		size := kv.ps.RaftStateSize()
+		DPrintf4("%v server: too large size:%v?\n", kv.me, size)
 		if size >= kv.maxraftstate {
+			DPrintf4("%v server: too large size:%v, waiting for lock\n", kv.me, size)
 			kv.mu.Lock()
+			DPrintf4("%v server: too large size:%v, get lock\n", kv.me, size)
 			maxCommandIndex := kv.maxCommandIndex
 			snapshot := kv.encodeSnapshot()
 			kv.mu.Unlock()
+			DPrintf4("%v server: too large size:%v, snapshot index:%v\n", kv.me, size, maxCommandIndex)
 			kv.rf.Snapshot(maxCommandIndex, snapshot)
+			DPrintf4("%v server: too large size:%v, snapshot index:%v okk\n", kv.me, size, maxCommandIndex)
 		}
 	}
 }
@@ -318,10 +361,11 @@ func (kv *KVServer) checkSnapshot() {
 func (kv *KVServer) encodeSnapshot() []byte {
 	w := new(bytes.Buffer)
 	e := labgob.NewEncoder(w)
-	e.Encode(kv.table)
-	e.Encode(kv.maxOpIndexs)
 	e.Encode(kv.maxCommandIndex)
+	e.Encode(kv.table)
+	e.Encode(kv.clientMaxOpIndexs)
 	snapshot := w.Bytes()
+	DPrintf("%v server: encoding snapshot, maxCommandIndex:%v, table:%v, clientMaxOpIndexs:%v\n", kv.me, kv.maxCommandIndex, kv.table, kv.clientMaxOpIndexs)
 
 	return snapshot
 }
@@ -329,19 +373,24 @@ func (kv *KVServer) encodeSnapshot() []byte {
 func (kv *KVServer) decodeAndApplySnapshot(snapshot []byte) {
 	r := bytes.NewBuffer(snapshot)
 	d := labgob.NewDecoder(r)
-	var table map[string]string
-	var maxOpIndexs map[int]int
+
 	var maxCommandIndex int
-	if d.Decode(&table) != nil ||
-		d.Decode(&maxOpIndexs) != nil ||
-		d.Decode(&maxCommandIndex) != nil {
+	var table map[string]string
+	var clientMaxOpIndexs map[int]int
+
+	if d.Decode(&maxCommandIndex) != nil ||
+		d.Decode(&table) != nil ||
+		d.Decode(&clientMaxOpIndexs) != nil {
 		DPrintf("server %d: snapshot decoding error", kv.me)
 		return
 	}
+
 	kv.mu.Lock()
-	kv.table = table
-	kv.maxOpIndexs = maxOpIndexs
 	kv.maxCommandIndex = maxCommandIndex
+	kv.table = table
+	kv.clientMaxOpIndexs = clientMaxOpIndexs
+
+	DPrintf("%v server: decoding snapshot, maxCommandIndex:%v, table:%v, clientMaxOpIndexs:%v\n", kv.me, kv.maxCommandIndex, kv.table, kv.clientMaxOpIndexs)
 	kv.mu.Unlock()
 }
 
@@ -370,15 +419,17 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 
 	// You may need initialization code here.
 
-	kv.applyCh = make(chan raft.ApplyMsg)
+	kv.applyCh = make(chan raft.ApplyMsg, 100)
 	kv.rf = raft.Make(servers, me, persister, kv.applyCh)
 
 	// You may need initialization code here.
 	kv.table = make(map[string]string)
-	kv.maxOpIndexs = make(map[int]int)
-	kv.clientApplied = make(map[int]chan OpFields)
+	// kv.maxOpIndexs = make(map[int]int)
+	// kv.clientApplied = make(map[int]chan OpFields)
 	kv.ps = persister
 	kv.maxCommandIndex = 0
+	kv.clientMaxOpIndexs = make(map[int]int)
+	kv.indexOpRecvs = make(map[int]*OpRecv)
 
 	snapshot := persister.ReadSnapshot()
 	if snapshot != nil {

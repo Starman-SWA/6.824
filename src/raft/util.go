@@ -15,6 +15,8 @@ const Debug2 = false
 // for lab3
 const Debug3 = false
 
+const Debug4 = false
+
 func DPrintf(format string, a ...interface{}) (n int, err error) {
 	if Debug {
 		log.Printf(format, a...)
@@ -38,6 +40,13 @@ func DPrintf2(format string, a ...interface{}) (n int, err error) {
 
 func DPrintf3(format string, a ...interface{}) (n int, err error) {
 	if Debug3 {
+		log.Printf(format, a...)
+	}
+	return
+}
+
+func DPrintf4(format string, a ...interface{}) (n int, err error) {
+	if Debug4 {
 		log.Printf(format, a...)
 	}
 	return
